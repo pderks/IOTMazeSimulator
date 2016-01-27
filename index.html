@@ -127,12 +127,45 @@
             context.fillStyle = style;
             context.fill();
         }
-        function move(){
+        function moveUp(){
               newX = currRectX;
-                    newY = currRectY - 10;
+              newY = currRectY - 10;
+             var allow = canMoveTo(newX, newY);
+            if(allow != 0){
             drawRectangle(newX, newY, "#0000FF");
                 currRectX = newX;
                 currRectY = newY;
+            }
+        }
+        function moveDown(){
+              newX = currRectX;
+                    newY = currRectY + 10;
+                     var allow = canMoveTo(newX, newY);
+            if(allow != 0){
+            drawRectangle(newX, newY, "#0000FF");
+                currRectX = newX;
+                currRectY = newY;
+            }
+        }
+        function moveLeft(){
+              newX = currRectX - 10;
+                    newY = currRectY;
+                    var allow = canMoveTo(newX, newY);
+            if(allow != 0){
+            drawRectangle(newX, newY, "#0000FF");
+                currRectX = newX;
+                currRectY = newY;
+            }
+        }
+        function moveRight(){
+              newX = currRectX + 10;
+                    newY = currRectY;
+                     var allow = canMoveTo(newX, newY);
+            if(allow != 0){
+            drawRectangle(newX, newY, "#0000FF");
+                currRectX = newX;
+                currRectY = newY;
+            }
         }
         function moveRect(e) {
             var newX;
