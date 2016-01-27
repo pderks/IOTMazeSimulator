@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <title>Modern Business - Start Bootstrap Template</title>
+     
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    
+
+    <!-- Header Carousel -->
+    <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="fill" style="background-image:url('http://public.asu.edu/~hmpatel4/edison.jpg');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url('http://johnny-five.io/img/breadboard/proximity-lidarlite.png');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url('http://www.intorobotics.com/wp-content/uploads/2015/03/F8BHO7EI4CMIULQ_opt.jpg');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    ASU IO Maze Simulator
+                </h1>
+                
+                <!-- BEGIN MAZE CODE -->
+                
+                <canvas width="1450" height="640" id="mazecanvas">Can't load the maze game, because your browser doesn't support HTML5.</canvas>
+                <noscript>JavaScript is not enabled. To play the game, you should enable it.</noscript>
+                
+                <!-- IOT FUNCTIONS -->
+               
+                <script>
+                       // Maze game created by ProgramFOX; http://www.codeproject.com/Members/ProgramFOX
+        // Licensed under CPOL: http://www.codeproject.com/info/cpol10.aspx
+
+        // 425 (X), 3 (Y) RECTANGLE
+        // 542 (center X), 122 (center Y) CIRCLE
+        var canvas = document.getElementById("mazecanvas");
+        var context = canvas.getContext("2d");
+        var currRectX = 1225;
+        var currRectY = 443;
+        var mazeWidth = 1450;
+        var mazeHeight = 640;
+        var intervalVar;
+        function drawMazeAndRectangle(rectX, rectY) {
+            makeWhite(0, 0, canvas.width, canvas.height);
+            var mazeImg = new Image();
+            mazeImg.onload = function () {
+                context.drawImage(mazeImg, 0, 0);
+                drawRectangle(rectX, rectY, "#0000FF");
+                context.beginPath();
+                //context.arc(542, 122, 7, 0, 2 * Math.PI, false);
+                context.closePath();
+                context.fillStyle = '#00FF00';
+                context.fill();
+            };
+            mazeImg.src = "maze1.jpg";
+        }
+        function drawRectangle(x, y, style) {
+            makeWhite(currRectX, currRectY, 99,99);
+            currRectX = x;
+            currRectY = y;
+            context.beginPath();
+            context.rect(x, y, 99, 99);
+            context.closePath();
+            context.fillStyle = style;
+            context.fill();
+        }
+        function move(){
+              newX = currRectX;
+                    newY = currRectY - 10;
+            drawRectangle(newX, newY, "#0000FF");
+                currRectX = newX;
+                currRectY = newY;
+        }
+        function moveRect(e) {
+            var newX;
+            var newY;
+            var movingAllowed;
+            
+            e = e || window.event;
+            switch (e.keyCode) {
+                case 38:   // arrow up key
+                case 87: // W key
+                    newX = currRectX;
+                    newY = currRectY - 10;
+                    break;
+                case 37: // arrow left key
+                case 65: // A key
+                    newX = currRectX - 10;
+                    newY = currRectY;
+                    break;
+                case 40: // arrow down key
+                case 83: // S key
+                    newX = currRectX;
+                    newY = currRectY + 10;
+                    break;
+                case 39: // arrow right key
+                case 68: // D key
+                    newX = currRectX + 10;
+                    newY = currRectY;
+                    break;
+            }
+            movingAllowed = canMoveTo(newX, newY);
+            if (movingAllowed === 1) {      // 1 means 'the rectangle can move'
+                drawRectangle(newX, newY, "#0000FF");
+                currRectX = newX;
+                currRectY = newY;
+            }
+            else if (movingAllowed === 2) { // 2 means 'the rectangle reached the end point'
+                clearInterval(intervalVar);
+                makeWhite(0, 0, canvas.width, canvas.height);
+                context.font = "40px Arial";
+                context.fillStyle = "blue";
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
+                window.removeEventListener("keydown", moveRect, true);
+            }
+        }
+        function canMoveTo(destX, destY) {
+            var imgData = context.getImageData(destX, destY, 99, 99);
+            var data = imgData.data;
+            var canMove = 1; // 1 means: the rectangle can move
+            if (destX >= 0 && destX <= mazeWidth - 99 && destY >= 0 && destY <= mazeHeight - 99) {
+                for (var i = 0; i < 4 * 99 * 99; i += 4) {
+                    if (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0) { // black
+                        canMove = 0; // 0 means: the rectangle can't move
+                        break;
+                    }
+                    else if (data[i] === 0 && data[i + 1] === 255 && data[i + 2] === 0) { // #00FF00
+                        canMove = 2; // 2 means: the end point is reached
+                        break;
+                    }
+                }
+            }
+            else {
+                canMove = 0;
+            }
+            return canMove;
+        }
+        function createTimer(seconds) {
+            intervalVar = setInterval(function () {
+                makeWhite(mazeWidth, 0, canvas.width - mazeWidth, canvas.height);
+                if (seconds === 0) {
+                    clearInterval(intervalVar);
+                    window.removeEventListener("keydown", moveRect, true);
+                    makeWhite(0, 0, canvas.width, canvas.height);
+                    context.font = "40px Arial";
+                    context.fillStyle = "red";
+                    context.textAlign = "center";
+                    context.textBaseline = "middle";
+                    context.fillText("Time's up!", canvas.width / 2, canvas.height / 2);
+                    return;
+                }
+                context.font = "20px Arial";
+                if (seconds <= 10 && seconds > 5) {
+                    context.fillStyle = "orangered";
+                }
+                else if (seconds <= 5) {
+                    context.fillStyle = "red";
+                }
+                else {
+                    context.fillStyle = "green";
+                }
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                var minutes = Math.floor(seconds / 60);
+                var secondsToShow = (seconds - minutes * 60).toString();
+                if (secondsToShow.length === 1) {
+                    secondsToShow = "0" + secondsToShow; // if the number of seconds is '5' for example, make sure that it is shown as '05'
+                }
+                context.fillText(minutes.toString() + ":" + secondsToShow, mazeWidth + 30, canvas.height / 2);
+                seconds--;
+            }, 1000);
+        }
+        function makeWhite(x, y, w, h) {
+            context.beginPath();
+            context.rect(x, y, w, h);
+            context.closePath();
+            context.fillStyle = "white";
+            context.fill();
+        }
+        drawMazeAndRectangle(1225, 443);
+        window.addEventListener("keydown", moveRect, true);
+        createTimer(120); // 2 minutes
+                </script>
+                <script src="js/IOTFunctions.js"> </script>
+                
+                <!-- END MAZE CODE -->
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <a href="#" class="btn btn-default" onclick="up()">Up</a>
+                    <a href="#" class="btn btn-default" onclick="moveRect()">Down</a>
+                    <a href="#" class="btn btn-default" onclick="left()">Left</a>
+                    <a href="#" class="btn btn-default" onclick="right()">Right</a>
+                    <a href="#" class="btn btn-default" onclick="stop()">Stop</a>
+                    <a href="#" class="btn btn-default" onclick="startServer()">Start Server</a>
+
+                </div>
+            </div>
+         
+            
+        </div>
+        <!-- /.row -->
+
+        <!-- Portfolio Section -->
+        <div class="row">
+            
+        </div>
+        <!-- /.row -->
+
+        <!-- Features Section -->
+        <div class="row">
+            <h1 class="page-header">
+                    View Simulator Values
+                </h1>
+            <div class="col-md-6">
+                <table style="width:100%">
+                                    <thead>
+      <th>MotorValues</th>
+      <th>MotorValues</th>
+     </thead>
+     <tbody>
+      <tr>
+             <td>Motor1</td>
+             <td>
+                <p id="left"></p>
+             </td>
+      </tr>
+      <tr>
+             <td>Motor2</td>
+             <td>
+                 <p id="right"></p>
+             </td>
+      </tr>
+      <tr>
+             <td>Motor3</td>
+             <td>LeftDistanceSensor</td>
+      </tr>
+      <tr>
+             <td>Motor4</td>
+             <td>RightDistanceSensor</td>
+      </tr>
+     </tbody>
+                            </table>
+                <div>
+                    <h1 class="page-header">
+                    Change Motor Values
+                </h1>
+                 <form>
+                    Motor1:<br>
+                    <input type="text" name="firstname">
+                    <br>
+                    Motor2:<br>
+                    <input type="text" name="lastname">
+                    <br>
+                    Motor3:<br>
+                    <input type="text" name="firstname">
+                    <br>
+                    Motor4:<br>
+                    <input type="text" name="firstname">
+                    <br>
+                </form>
+                    <a href="#" class="btn btn-default">Submit</a>
+                </div>
+                
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Call to Action Section -->
+        <div class="well">
+            <div class="row">
+                <div class="col-md-8">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-lg btn-default btn-block" href="#">Call to Action</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p id="testing"> </p>
+                    
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+</body>
+
+</html>
