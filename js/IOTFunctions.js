@@ -1,9 +1,11 @@
+
 var connection;
 function popup(){
     alert("Hello World");
 }
 function startServer(){
     alert("Starting Server");
+    //connect to viple
     connection = new WebSocket("ws://localhost:8124");
     connection.onopen = function(){
     
