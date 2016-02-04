@@ -33,9 +33,16 @@ function startServer(){
         if(first[4].indexOf("-0.5") > -1){
             if(first[7].indexOf("-0.5")){
                 if(direction == 3){
+                    
+                    makeWhite(currRectX, currRectY, rWidth,rHeight);
+                    swapDim();
+                    drawRectangle(newX, newY, "#0000FF");
                     direction = 0;
                 }
                  else{
+                      makeWhite(currRectX, currRectY, rWidth,rHeight);
+                    swapDim();
+                    drawRectangle(newX, newY, "#0000FF");
                      direction++;
                  }
 
@@ -47,12 +54,14 @@ function startServer(){
                     moveDown();
                 }
                 if(direction == 1){
+                    
                     moveRight();
                 }
                 if(direction == 2){
                     moveUp();
                 }
                 if(direction == 3){
+                   
                     moveLeft();
             }          
         }
@@ -64,20 +73,28 @@ function startServer(){
                     moveUp();
                 }
                 if(direction == 1){
+                    
                     moveLeft();
                 }
                 if(direction == 2){
                     moveDown();
                 }
                 if(direction == 3){
+                     
                     moveRight();
                 }  
             }
             else{
                 if(direction == 0){
+                     makeWhite(currRectX, currRectY, rWidth,rHeight);
+                    swapDim();
+                    drawRectangle(newX, newY, "#0000FF");
                     direction = 3;
                 }
                 else{
+                     makeWhite(currRectX, currRectY, rWidth,rHeight);
+                    swapDim();
+                    drawRectangle(newX, newY, "#0000FF");
                     direction--;
                     
                 }

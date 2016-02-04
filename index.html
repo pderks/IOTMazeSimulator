@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    ASU IO Maze Simulator
+                    ASU IOT Maze Simulator
                 </h1>
                 
                 <!-- BEGIN MAZE CODE -->
@@ -103,11 +103,21 @@
         var mazeWidth = 1450;
         var mazeHeight = 640;
         var intervalVar;
+        var rHeight = 75;
+        var rWidth = 50;
+        var rTemp = 0;
+        function swapDim(){
+            rTemp = rHeight;
+            rHeight = rWidth;
+            rWidth = rTemp;
+        }
         function drawMazeAndRectangle(rectX, rectY) {
             makeWhite(0, 0, canvas.width, canvas.height);
             var mazeImg = new Image();
             mazeImg.onload = function () {
                 context.drawImage(mazeImg, 0, 0);
+                
+                
                 drawRectangle(rectX, rectY, "#0000FF");
                 context.beginPath();
                 //context.arc(542, 122, 7, 0, 2 * Math.PI, false);
@@ -118,14 +128,20 @@
             mazeImg.src = "maze1.jpg";
         }
         function drawRectangle(x, y, style) {
-            makeWhite(currRectX, currRectY, 99,99);
+            makeWhite(currRectX, currRectY, rWidth,rHeight);
             currRectX = x;
             currRectY = y;
             context.beginPath();
-            context.rect(x, y, 99, 99);
+            context.rect(x, y, rWidth, rHeight);
             context.closePath();
-            context.fillStyle = style;
-            context.fill();
+            
+//            var grd=context.rect.createRadialGradient(75,50,5,90,60,100);
+//            grd.addColorStop(0,"red");
+//            grd.addColorStop(1,"black");
+            
+            
+            context.fillStyle = "#0000FF";
+            context.fillRect(x, y, rWidth, rHeight);
         }
         function moveUp(){
               newX = currRectX;
@@ -148,11 +164,11 @@
             }
         }
         function moveLeft(){
-              newX = currRectX - 10;
+             newX = currRectX - 10;
                     newY = currRectY;
                     var allow = canMoveTo(newX, newY);
             if(allow != 0){
-            drawRectangle(newX, newY, "#0000FF");
+                 drawRectangle(newX, newY, "#0000FF");
                 currRectX = newX;
                 currRectY = newY;
             }
@@ -162,7 +178,7 @@
                     newY = currRectY;
                      var allow = canMoveTo(newX, newY);
             if(allow != 0){
-            drawRectangle(newX, newY, "#0000FF");
+               drawRectangle(newX, newY, "#0000FF");
                 currRectX = newX;
                 currRectY = newY;
             }
@@ -213,11 +229,11 @@
             }
         }
         function canMoveTo(destX, destY) {
-            var imgData = context.getImageData(destX, destY, 99, 99);
+            var imgData = context.getImageData(destX, destY, rWidth, rHeight);
             var data = imgData.data;
             var canMove = 1; // 1 means: the rectangle can move
-            if (destX >= 0 && destX <= mazeWidth - 99 && destY >= 0 && destY <= mazeHeight - 99) {
-                for (var i = 0; i < 4 * 99 * 99; i += 4) {
+            if (destX >= 0 && destX <= mazeWidth - rWidth && destY >= 0 && destY <= mazeHeight - rHeight) {
+                for (var i = 0; i < 4 * rHeight * rWidth; i += 4) {
                     if (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0) { // black
                         canMove = 0; // 0 means: the rectangle can't move
                         break;
@@ -277,7 +293,7 @@
         }
         drawMazeAndRectangle(1225, 443);
         window.addEventListener("keydown", moveRect, true);
-        createTimer(120); // 2 minutes
+        //createTimer(120); // 2 minutes
                 </script>
                 <script src="js/IOTFunctions.js"> </script>
                 
