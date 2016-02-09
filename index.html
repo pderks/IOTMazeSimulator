@@ -80,8 +80,10 @@
                 </h1>
                 
                 <!-- BEGIN MAZE CODE -->
-                
-                <canvas width="1200" height="550" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <p>
+                <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <canvas width="300" height="300" id="indicatorCanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                </p>
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
                 
                 <!-- IOT FUNCTIONS -->
@@ -103,6 +105,15 @@
                     var rWidth = 50;
                     var rTemp = 0;
                     
+                    //Indicator Dimensions
+                    var indCanv = document.getElementById("indicatorCanvas");
+                    var indCont = indCanv.getContext("2d");
+                    var indWindowWidth = 300;
+                    var indWindowHeight = 300;
+                    var indImg = new Image();
+                    indImg.src = "Indicator.jpg";
+                    
+                    
                     //**********************************************************
                     // Start of Drawing Functions
                     //**********************************************************
@@ -121,6 +132,50 @@
                             context.fill();
                         };
                         mazeImg.src = "maze1.jpg";
+                    }
+                    function drawIndicatorCanvas() {
+                        makeWhite(0, 0, indCanv.width, indCanv.height);
+                        indImg.onload = function () {
+                            indCont.drawImage(indImg, 0, 0);
+                            indCont.fill();
+                        };
+                        
+                    }
+                    
+                    function rotateIndicatorFront() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(0*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function rotateIndicatorLeft() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(270*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function rotateIndicatorRight() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(90*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function rotateIndicatorBack() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(180*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
                     }
                     
                     function drawRectangle(x, y, style) {
@@ -162,6 +217,7 @@
                     function moveUp(){
                         newX = currRectX;
                         newY = currRectY - 10;
+                        
                         var allow = canMoveTo(newX, newY);
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
@@ -189,6 +245,7 @@
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
+                            
                         }
                     }
                     
@@ -312,6 +369,7 @@
                     }
                     
                     drawMazeAndRectangle(1020, 345);
+                    drawIndicatorCanvas(300,300);
                     window.addEventListener("keydown", moveRect, true);
                     //createTimer(120); // 2 minutes
                 </script>
