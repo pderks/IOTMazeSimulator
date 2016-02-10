@@ -117,6 +117,11 @@
                     var isLeftTurn = false;
                     var isRightTurn = false;
                     var rightWheelPower = 0;
+                    var heading = 0;
+                    var accuLeft = 0;
+                    var accuRight = 0;
+                    var newX;
+                    var newY;
                     
                     
                     //**********************************************************
@@ -288,8 +293,7 @@
                     }
                     
                     function moveRect(e) {
-                        var newX;
-                        var newY;
+                        
                         var movingAllowed;
 
                         e = e || window.event;
