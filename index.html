@@ -227,47 +227,94 @@
                     function moveUp(){
                         newX = currRectX;
                         newY = currRectY - 10;
-                        
-                        var allow = canMoveTo(newX, newY);
+                        var findDistance;
+                        var distToWall;
+                        var countY = currRectY;
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         }
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countY);
+                            countY--;
+                        }
+                        
+                        distToWall = currRectY - countY - 7;
+                        var allow = canMoveTo(newX, newY);
+                        document.getElementById("testing").innerHTML = distToWall;
                     }
                     
                     function moveDown(){
                         newX = currRectX;
                         newY = currRectY + 10;
                         var allow = canMoveTo(newX, newY);
+                        var findDistance;
+                        var distToWall;
+                        var countY = currRectY;
+                        
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         }
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countY);
+                            countY++;
+                        }
+
+                        distToWall = countY - currRectY - 11;
+                        document.getElementById("testing").innerHTML = distToWall;
+
                     }
                     
                     function moveLeft(){
                         newX = currRectX - 10;
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
+                        var findDistance;
+                        var distToWall;
+                        var countX = currRectX;
+                        
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                             
                         }
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countX, currRectY);
+                            countX--;
+                        }
+
+                        distToWall = currRectX - countX - 6;
+                        document.getElementById("testing").innerHTML = distToWall;
                     }
                     
                     function moveRight(){
                         newX = currRectX + 10;
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
+                        var findDistance;
+                        var distToWall;
+                        var countX = currRectX;
+                        
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         }
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countX, currRectY);
+                            countX++;
+                        }
+
+                        distToWall = countX - currRectX - 6;
+                        document.getElementById("testing").innerHTML = distToWall;
                     }
                     
                     function canMoveTo(destX, destY) {
