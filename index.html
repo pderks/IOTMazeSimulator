@@ -80,10 +80,10 @@
                 </h1>
                 
                 <!-- BEGIN MAZE CODE -->
-                <p>
+                <div>
                 <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 <canvas width="300" height="300" id="indicatorCanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
-                </p>
+                </div>
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
                 
                 <!-- IOT FUNCTIONS -->
@@ -96,8 +96,8 @@
                     // 542 (center X), 122 (center Y) CIRCLE
                     var canvas = document.getElementById("mazecanvas");
                     var context = canvas.getContext("2d");
-                    var currRectX = 1020;
-                    var currRectY = 345;
+                    var currRectX;
+                    var currRectY;
                     var mazeWidth = 1450;
                     var mazeHeight = 640;
                     var intervalVar;
@@ -368,7 +368,7 @@
                         }, 1000);
                     }
                     
-                    drawMazeAndRectangle(1020, 345);
+                    drawMazeAndRectangle(1290, 443);
                     drawIndicatorCanvas(300,300);
                     window.addEventListener("keydown", moveRect, true);
                     //createTimer(120); // 2 minutes
