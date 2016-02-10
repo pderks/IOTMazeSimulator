@@ -4,11 +4,78 @@ var connection;
 function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Robot
     //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
     document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    if(leftWheelPower == 0 && rightWheelPower == 0) {
+        accuLeft = 0; 
+        accuRight = 0;}
+    accuLeft = accuLeft + leftWheelPower;
+    accuRight = accuRight + rightWheelPower;
+    if((accuRight - accuLeft) >= 0.5) {
+        if(heading == 0) {
+            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            swapDim();
+            rotateIndicatorRight();
+            drawRectangle(newX, newY, "#0000FF");
+            heading = 3;
+        } else {
+            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            swapDim();
+            if(heading == 1) rotateIndicatorFront();
+            if(heading == 2) rotateIndicatorLeft();
+            if(heading == 3) rotateIndicatorBack();
+            drawRectangle(newX, newY, "#0000FF");
+            heading--; 
+        }
+        accuLeft = 0;
+        accuRight = 0;
+    } else if((accuLeft - accuRight) >= 0.5) { //turning left
+        if(heading == 3) {
+            heading = 0;
+            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            swapDim();
+            rotateIndicatorFront();
+            drawRectangle(newX, newY, "#0000FF");
+        } //facing right
+        else {
+            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            swapDim();
+            if(heading == 2) rotateIndicatorRight();
+            if(heading == 1) rotateIndicatorBack();
+            if(heading == 0) rotateIndicatorLeft();
+            drawRectangle(newX, newY, "#0000FF");
+            heading++;
+        };
+        accuLeft = 0;
+        accuRight = 0;
+    }
+    if(heading == 0) {
+        if(leftWheelPower > 0 && rightWheelPower > 0) { //Up
+            moveUp();
+        } else if(leftWheelPower < 0 && rightWheelPower < 0) {
+            moveDown();
+        } 
+    }else if(heading == 1) { //Left
+       if(leftWheelPower > 0 && rightWheelPower > 0) { 
+            moveLeft();
+        } else if(leftWheelPower < 0 && rightWheelPower < 0) {
+            moveRight();
+        }
+    } else if(heading == 2) { //Down
+        if(leftWheelPower > 0 && rightWheelPower > 0) { 
+            moveDown();
+        } else if(leftWheelPower < 0 && rightWheelPower < 0) {
+            moveUp();
+        }
+    } else if(heading == 3) { //Right
+        if(leftWheelPower > 0 && rightWheelPower > 0) {
+            moveRight();
+        } else if(leftWheelPower < 0 && rightWheelPower < 0) {
+            moveLeft();
+        }
+    }
     var t = setTimeout(periodicMovement, 250);
 }
 
 function startServer(){
-    var direction = 0;
     alert("Starting Server");
     //connect to VIPLE
     connection = new WebSocket("ws://localhost:8124");
@@ -38,80 +105,7 @@ function startServer(){
         //if(stringfy.indexOf("{\"servos\":[{\"isTurn\":false,\"servoID\":3,\"servoSpeed\":0},{\"isTurn\":false,\"servoId\":5,\"servoSpeed\":0}]}") > -1){
         var first = stringfy.split(":");
 
-        //Cases for Rotate Left and Move Down
-        if(first[4].indexOf("-0.5") > -1){
-            if(first[7].indexOf("-0.5")){
-                //Case to Rotate Left
-                if(direction == 3){ 
-                    makeWhite(currRectX, currRectY, rWidth,rHeight);
-                    swapDim();
-                    rotateIndicatorFront();
-                    drawRectangle(newX, newY, "#0000FF");
-                    direction = 0;
-                }
-                else{
-                    makeWhite(currRectX, currRectY, rWidth,rHeight);
-                    swapDim();
-                    if(direction == 2) rotateIndicatorRight();
-                    if(direction == 1) rotateIndicatorBack();
-                    if(direction == 0) rotateIndicatorLeft();
-                    drawRectangle(newX, newY, "#0000FF");
-                    direction++;
-                 }  
-            }
-            //Case to Move Down
-            else{
-                if(direction == 0){
-                    moveDown();
-                }
-                if(direction == 1){   
-                    moveRight();
-                }
-                if(direction == 2){
-                    moveUp();
-                }
-                if(direction == 3){
-                    moveLeft();
-                }          
-            }
-        }
-        //Cases for Rotate Right and Move Up
-        else if(first[4].indexOf("0.5") > -1){
-            //Case to Move Up
-            if(first[7].indexOf("-0.5")){
-                if(direction == 0){
-                    moveUp();
-                }
-                if(direction == 1){                    
-                    moveLeft();
-                }
-                if(direction == 2){
-                    moveDown();
-                }
-                if(direction == 3){    
-                    moveRight();
-                }  
-            }
-            //Case to Rotate Right
-            else{
-                if(direction == 0){
-                    makeWhite(currRectX, currRectY, rWidth,rHeight);
-                    swapDim();
-                    rotateIndicatorRight();
-                    drawRectangle(newX, newY, "#0000FF");
-                    direction = 3;
-                }
-                else{
-                    makeWhite(currRectX, currRectY, rWidth,rHeight);
-                    swapDim();
-                    if(direction == 1) rotateIndicatorFront();
-                    if(direction == 2) rotateIndicatorLeft();
-                    if(direction == 3) rotateIndicatorBack();
-                    drawRectangle(newX, newY, "#0000FF");
-                    direction--;  
-                }   
-            }
-        }     
+            
     }    
 }
 
