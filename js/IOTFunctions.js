@@ -1,6 +1,11 @@
 
 var connection;
 
+function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Robot
+    document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    var t = setTimeout(periodicMovement(), 1500);
+}
+
 function startServer(){
     var direction = 0;
     alert("Starting Server");
@@ -9,6 +14,7 @@ function startServer(){
     
     connection.onopen = function(){
         document.getElementById("testing").innerHTML = 40;
+        periodicMovement();
     }
     
     if ("WebSocket" in window)
@@ -18,6 +24,12 @@ function startServer(){
     
     connection.onmessage = function(evt){
         var received = evt.data;
+        var jsobject = JSON.parse(received);
+        leftWheelPower = Number(jsobject.servos[0].servoSpeed);
+        rightWheelPower = Number(jsobject.servos[1].servoSpeed);
+        isLeftTurn = Boolean(jsobject.servos[0].isTurn);
+        isRightTurn = Boolean(jsobject.servos[1].isTurn);
+        //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + Number(jsobject.servos[0].servoSpeed) + ' Right Motor' + Number(jsobject.servos[1].servoSpeed);
         var stringfy = received.toString();
         //alert(stringfy);
         // stringfy = "up down left right";

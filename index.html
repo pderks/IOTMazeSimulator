@@ -113,6 +113,11 @@
                     var indImg = new Image();
                     indImg.src = "Indicator.jpg";
                     
+                    var leftWheelPower = 0;
+                    var isLeftTurn = false;
+                    var isRightTurn = false;
+                    var rightWheelPower = 0;
+                    
                     
                     //**********************************************************
                     // Start of Drawing Functions
@@ -331,47 +336,12 @@
                     //**********************************************************
                     // End of Movement Functions
                     //**********************************************************
-                    
-                    function createTimer(seconds) {
-                        intervalVar = setInterval(function () {
-                            makeWhite(mazeWidth, 0, canvas.width - mazeWidth, canvas.height);
-                            if (seconds === 0) {
-                                clearInterval(intervalVar);
-                                window.removeEventListener("keydown", moveRect, true);
-                                makeWhite(0, 0, canvas.width, canvas.height);
-                                context.font = "40px Arial";
-                                context.fillStyle = "red";
-                                context.textAlign = "center";
-                                context.textBaseline = "middle";
-                                context.fillText("Time's up!", canvas.width / 2, canvas.height / 2);
-                                return;
-                            }
-                            context.font = "20px Arial";
-                            if (seconds <= 10 && seconds > 5) {
-                                context.fillStyle = "orangered";
-                            }
-                            else if (seconds <= 5) {
-                                context.fillStyle = "red";
-                            }
-                            else {
-                                context.fillStyle = "green";
-                            }
-                            context.textAlign = "center";
-                            context.textBaseline = "middle";
-                            var minutes = Math.floor(seconds / 60);
-                            var secondsToShow = (seconds - minutes * 60).toString();
-                            if (secondsToShow.length === 1) {
-                                secondsToShow = "0" + secondsToShow; // if the number of seconds is '5' for example, make sure that it is shown as '05'
-                            }
-                            context.fillText(minutes.toString() + ":" + secondsToShow, mazeWidth + 30, canvas.height / 2);
-                            seconds--;
-                        }, 1000);
-                    }
+              
                     
                     drawMazeAndRectangle(1290, 443);
                     drawIndicatorCanvas(300,300);
                     window.addEventListener("keydown", moveRect, true);
-                    //createTimer(120); // 2 minutes
+                    
                 </script>
                 <script src="js/IOTFunctions.js"> </script>
                 
@@ -380,8 +350,14 @@
             
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <a href="#" class="btn btn-default" onclick="startServer()">Start Server</a>
+                    <a href="#" class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
+            </div>
+            <div>
+                <h2>Instructions on using this on the same computer:</h2>
+                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has <strong>8124</strong> as its TCP port. </h4>
+                <h4>2.) Run ASU VIPLE</h4>
+                <h4>3.) Click the <strong>Connect to ASU VIPLE (Websockets)</strong> button.</h4>
             </div>
          
             
