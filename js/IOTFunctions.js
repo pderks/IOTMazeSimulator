@@ -2,8 +2,9 @@
 var connection;
 
 function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Robot
-    document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
-    var t = setTimeout(periodicMovement(), 1500);
+    //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    var t = setTimeout(periodicMovement, 250);
 }
 
 function startServer(){
@@ -29,7 +30,8 @@ function startServer(){
         rightWheelPower = Number(jsobject.servos[1].servoSpeed);
         isLeftTurn = Boolean(jsobject.servos[0].isTurn);
         isRightTurn = Boolean(jsobject.servos[1].isTurn);
-        //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + Number(jsobject.servos[0].servoSpeed) + ' Right Motor' + Number(jsobject.servos[1].servoSpeed);
+        
+        
         var stringfy = received.toString();
         //alert(stringfy);
         // stringfy = "up down left right";
