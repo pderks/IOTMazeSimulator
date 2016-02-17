@@ -9,7 +9,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         accuRight = 0;}
     accuLeft = accuLeft + leftWheelPower;
     accuRight = accuRight + rightWheelPower;
-    if((accuRight - accuLeft) >= 0.5) {
+    if((accuLeft - accuRight) >= 1.5) {
         if(heading == 0) {
             makeWhite(currRectX, currRectY, rWidth,rHeight);
             swapDim();
@@ -45,7 +45,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         }
         accuLeft = 0;
         accuRight = 0;
-    } else if((accuLeft - accuRight) >= 0.5) { //turning left
+    } else if((accuRight - accuLeft) >= 1.5) { //turning left
         if(heading == 3) {
             heading = 0;
             makeWhite(currRectX, currRectY, rWidth,rHeight);
