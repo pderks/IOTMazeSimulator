@@ -227,6 +227,7 @@
                     function moveUp(){
                         newX = currRectX;
                         newY = currRectY - 10;
+                        var allow = canMoveTo(newX, newY);
                         var findDistance;
                         var distToWall;
                         var countY = currRectY;
@@ -242,7 +243,6 @@
                         }
                         
                         distToWall = currRectY - countY - 7;
-                        var allow = canMoveTo(newX, newY);
                         document.getElementById("testing").innerHTML = distToWall;
                     }
                     
