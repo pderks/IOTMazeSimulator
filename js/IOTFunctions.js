@@ -114,7 +114,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
 function startServer(){
     alert("Starting Server");
     //connect to VIPLE
-    connection = new WebSocket("ws://localhost:8124");
+    connection = new WebSocket("ws://" + document.getElementById("ipTxt").value + ":8124");
     
     connection.onopen = function(){
         document.getElementById("testing").innerHTML = 40;

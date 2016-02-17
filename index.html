@@ -122,6 +122,7 @@
                     var accuRight = 0;
                     var newX;
                     var newY;
+                    var distToWall;
                     
                     
                     //**********************************************************
@@ -229,7 +230,7 @@
                         newY = currRectY - 10;
                         var allow = canMoveTo(newX, newY);
                         var findDistance;
-                        var distToWall;
+                        distToWall = 0;
                         var countY = currRectY;
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
@@ -251,7 +252,7 @@
                         newY = currRectY + 10;
                         var allow = canMoveTo(newX, newY);
                         var findDistance;
-                        var distToWall;
+                        distToWall = 0;
                         var countY = currRectY;
                         
                         if(allow != 0){
@@ -275,7 +276,7 @@
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
                         var findDistance;
-                        var distToWall;
+                        distToWall = 0;
                         var countX = currRectX;
                         
                         if(allow != 0){
@@ -299,7 +300,7 @@
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
                         var findDistance;
-                        var distToWall;
+                        distToWall = 0;
                         var countX = currRectX;
                         
                         if(allow != 0){
@@ -401,6 +402,7 @@
             
             <div class="col-md-4">
                 <div class="panel panel-default">
+                    <input type="text" id="ipTxt" value="Input the listening server's IP address.">
                     <a href="#" class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
