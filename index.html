@@ -122,7 +122,10 @@
                     var accuRight = 0;
                     var newX;
                     var newY;
-                    var distToWall;
+                    var upDist;
+                    var downDist;
+                    var leftDist;
+                    var rightDist;
                     
                     
                     //**********************************************************
@@ -225,59 +228,86 @@
                     //**********************************************************
                     // Start of Movement Functions
                     //**********************************************************
+                    function measureDist() {
+                        var countUp = currRectY;
+                        var countDown = currRectY;
+                        var countLeft = currRectX;
+                        var countRight = currRectX;
+                        var findDistance = 9001;
+                        upDist = 0;
+                        downDist = 0;
+                        leftDist = 0;
+                        rightDist = 0;
+                        
+                        //up
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countUp);
+                            countUp--;
+                        }
+                        
+                        upDist = currRectY - countUp - 7;
+                        findDistance = 9001;
+                        
+                        //down 
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countDown);
+                            countDown++;
+                        }
+                        findDistance = 9001; 
+                        downDist = countDown - currRectY - 12;
+                        
+                        //left
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countLeft, currRectY);
+                            countLeft--;
+                        }
+                        findDistance = 9001;
+                        leftDist = currRectX - countLeft - 2;
+                        
+                        //right
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countRight, currRectY);
+                            countRight++;
+                        }
+
+                        rightDist = countRight - currRectX + 4;
+                        document.getElementById("testing").innerHTML = 'Current distance readings: Up: ' + upDist + ' Down: ' + downDist + ' left: ' + leftDist + ' right ' + rightDist;
+                        
+                    }
                     function moveUp(){
                         newX = currRectX;
                         newY = currRectY - 10;
                         var allow = canMoveTo(newX, newY);
-                        var findDistance;
-                        distToWall = 0;
-                        var countY = currRectY;
+                        
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         }
-                        while(findDistance != 0)
-                        {
-                            findDistance = canMoveTo(currRectX, countY);
-                            countY--;
-                        }
-                        
-                        distToWall = currRectY - countY - 7;
-                        document.getElementById("testing").innerHTML = distToWall;
+                        measureDist();
                     }
                     
                     function moveDown(){
                         newX = currRectX;
                         newY = currRectY + 10;
                         var allow = canMoveTo(newX, newY);
-                        var findDistance;
-                        distToWall = 0;
-                        var countY = currRectY;
                         
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         }
-                        while(findDistance != 0)
-                        {
-                            findDistance = canMoveTo(currRectX, countY);
-                            countY++;
-                        }
-
-                        distToWall = countY - currRectY - 11;
-                        document.getElementById("testing").innerHTML = distToWall;
-
+                        measureDist();
                     }
                     
                     function moveLeft(){
                         newX = currRectX - 10;
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
-                        var findDistance;
-                        distToWall = 0;
-                        var countX = currRectX;
                         
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
@@ -285,37 +315,20 @@
                             currRectY = newY;
                             
                         }
-                        while(findDistance != 0)
-                        {
-                            findDistance = canMoveTo(countX, currRectY);
-                            countX--;
-                        }
-
-                        distToWall = currRectX - countX - 6;
-                        document.getElementById("testing").innerHTML = distToWall;
+                        measureDist();
                     }
                     
                     function moveRight(){
                         newX = currRectX + 10;
                         newY = currRectY;
                         var allow = canMoveTo(newX, newY);
-                        var findDistance;
-                        distToWall = 0;
-                        var countX = currRectX;
                         
                         if(allow != 0){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                        }
-                        while(findDistance != 0)
-                        {
-                            findDistance = canMoveTo(countX, currRectY);
-                            countX++;
-                        }
-
-                        distToWall = countX - currRectX - 6;
-                        document.getElementById("testing").innerHTML = distToWall;
+                        } 
+                        measureDist(); 
                     }
                     
                     function canMoveTo(destX, destY) {
@@ -341,7 +354,7 @@
                     }
                     
                     function moveRect(e) {
-                        
+                        /*
                         var movingAllowed;
 
                         e = e || window.event;
@@ -365,7 +378,7 @@
                             case 68: // D key
                                 newX = currRectX + 10;
                                 newY = currRectY;
-                                break;
+                                break; 
                         }
                         movingAllowed = canMoveTo(newX, newY);
                         
@@ -383,7 +396,7 @@
                             context.textBaseline = "middle";
                             context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
                             window.removeEventListener("keydown", moveRect, true);
-                        }
+                        }*/
                     }
                     //**********************************************************
                     // End of Movement Functions
@@ -425,7 +438,7 @@
                 <div class="col-lg-12">
                     <p id="testing"> </p>
                     <p id="testing2"> </p>
-                    
+                    <p id="testing3"> </p>
                 </div>
             </div>
         </footer>
