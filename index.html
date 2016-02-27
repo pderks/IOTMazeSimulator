@@ -111,7 +111,7 @@
                     var indWindowWidth = 300;
                     var indWindowHeight = 300;
                     var indImg = new Image();
-                    indImg.src = "Indicator.jpg";
+                    indImg.src = "boldicator.jpg";
                     
                     var leftWheelPower = 0;
                     var isLeftTurn = false;
@@ -145,7 +145,7 @@
                             context.fillStyle = '#00FF00';
                             context.fill();
                         };
-                        mazeImg.src = "maze1.jpg";
+                        mazeImg.src = "mazebold.jpg";
                     }
                     function drawIndicatorCanvas() {
                         makeWhite(0, 0, indCanv.width, indCanv.height);
@@ -246,7 +246,7 @@
                             countUp--;
                         }
                         
-                        upDist = currRectY - countUp - 7;
+                        upDist = currRectY - countUp - 3;
                         findDistance = 9001;
                         
                         //down 
@@ -256,7 +256,7 @@
                             countDown++;
                         }
                         findDistance = 9001; 
-                        downDist = countDown - currRectY - 12;
+                        downDist = countDown - currRectY - 3;
                         
                         //left
                         while(findDistance != 0)
@@ -265,7 +265,7 @@
                             countLeft--;
                         }
                         findDistance = 9001;
-                        leftDist = currRectX - countLeft - 2;
+                        leftDist = currRectX - countLeft - 3;
                         
                         //right
                         while(findDistance != 0)
@@ -274,32 +274,42 @@
                             countRight++;
                         }
 
-                        rightDist = countRight - currRectX + 4;
+                        rightDist = countRight - currRectX - 3;
                         document.getElementById("testing").innerHTML = 'Current distance readings: Up: ' + upDist + ' Down: ' + downDist + ' left: ' + leftDist + ' right ' + rightDist;
                         
                     }
                     function moveUp(){
                         newX = currRectX;
                         newY = currRectY - 10;
-                        var allow = canMoveTo(newX, newY);
                         
-                        if(allow != 0){
+                        
+                        if(upDist >= 10){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
+                            document.getElementById("testing3").innerHTML = 'YepUp';
+                        } else if(upDist < 10 && upDist > 0) {
+                            drawRectangle(newX, newY - upDist + 10, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY - upDist + 10;
+                            document.getElementById("testing3").innerHTML = 'nopeUp';
                         }
+                      
                         measureDist();
                     }
                     
                     function moveDown(){
                         newX = currRectX;
                         newY = currRectY + 10;
-                        var allow = canMoveTo(newX, newY);
                         
-                        if(allow != 0){
+                        if(downDist >= 10){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
+                        } else if(downDist < 10 && downDist > 0) {
+                            drawRectangle(newX, newY + downDist - 10, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY + downDist - 10;
                         }
                         measureDist();
                     }
@@ -307,13 +317,14 @@
                     function moveLeft(){
                         newX = currRectX - 10;
                         newY = currRectY;
-                        var allow = canMoveTo(newX, newY);
-                        
-                        if(allow != 0){
+                        if(leftDist >= 10){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                            
+                        } else if(leftDist < 10 && leftDist > 0) {
+                            drawRectangle(newX - leftDist + 10, newY, "#0000FF");
+                            currRectX = newX - leftDist + 10;
+                            currRectY = newY;
                         }
                         measureDist();
                     }
@@ -321,13 +332,15 @@
                     function moveRight(){
                         newX = currRectX + 10;
                         newY = currRectY;
-                        var allow = canMoveTo(newX, newY);
-                        
-                        if(allow != 0){
+                        if(rightDist >= 10){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                        } 
+                        } else {
+                            drawRectangle(newX + rightDist - 10, newY, "#0000FF");
+                            currRectX = newX + rightDist - 10;
+                            currRectY = newY;
+                        }
                         measureDist(); 
                     }
                     
