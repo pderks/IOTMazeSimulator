@@ -14,7 +14,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             makeWhite(currRectX, currRectY, rWidth,rHeight);
             swapDim();
             rotateIndicatorRight();
-            drawRectangle(newX, newY, "#0000FF");
+            drawRectangle(newX-12.5, newY+12.5, "#0000FF");
             heading = 3;
             moveRight();
             moveLeft();
@@ -24,7 +24,9 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             if(heading == 1) rotateIndicatorFront();
             if(heading == 2) rotateIndicatorLeft();
             if(heading == 3) rotateIndicatorBack();
-            drawRectangle(newX, newY, "#0000FF");
+            
+            if(heading == 1 || heading == 3) drawRectangle(newX+12.5, newY-12.5, "#0000FF");
+            else drawRectangle(newX-12.5, newY+12.5, "#0000FF");
             heading--; 
             
             if(heading == 0)
@@ -51,7 +53,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             makeWhite(currRectX, currRectY, rWidth,rHeight);
             swapDim();
             rotateIndicatorFront();
-            drawRectangle(newX, newY, "#0000FF");
+            drawRectangle(newX+12.5, newY-12.5, "#0000FF");
             moveUp();
             moveDown();
         } //facing right
@@ -61,7 +63,9 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             if(heading == 2) rotateIndicatorRight();
             if(heading == 1) rotateIndicatorBack();
             if(heading == 0) rotateIndicatorLeft();
-            drawRectangle(newX, newY, "#0000FF");
+            
+            if(heading == 0 || heading == 2) drawRectangle(newX-12.5, newY+12.5, "#0000FF");
+            else drawRectangle(newX+12.5, newY-12.5, "#0000FF");
             heading++;
             
             if(heading == 1)
