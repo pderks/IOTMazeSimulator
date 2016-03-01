@@ -126,6 +126,10 @@
                     var downDist;
                     var leftDist;
                     var rightDist;
+                    var sensor1Type = 0;
+                    var sensor1ID = 0;
+                    var sensor2Type = 0;
+                    var sensor2ID = 0;
                     
                     
                     //**********************************************************
@@ -425,8 +429,27 @@
                 
                 <!-- END MAZE CODE -->               
             </div>
+            <div>
+                <h2>Input Sensor Values</h2>
+                <h4>Enter 'none' if you don't plan on using that sensor.</h4>
+                <div class="panel panel-default">
+                    <input type="text" id="sensor1Txt" value="ID of Sensor1">
+                    <select id="sensor1Select">
+                        <option>Ultrasonic Sensor</option>
+                        <option>Touch Sensor</option>
+                    </select>
+                    <input type="text" id="sensor2Txt" value="ID of Sensor2">
+                    <select id="sensor2Select">
+                        <option>Ultrasonic Sensor</option>
+                        <option>Touch Sensor</option>
+                    </select>
+                    <a href="#" class="btn btn-default" onclick="getSensorInfo()">Add Sensors</a>
+                    <p id="sensorLbl"> </p>
+                </div>
+            </div>
             
             <div class="col-md-4">
+                <h2>Connect to VIPLE</h2>
                 <div class="panel panel-default">
                     <input type="text" id="ipTxt" value="Input the listening server's IP address.">
                     <a href="#" class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>

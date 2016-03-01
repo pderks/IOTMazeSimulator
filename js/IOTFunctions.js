@@ -115,6 +115,52 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     var t = setTimeout(periodicMovement, 250);
 }
 
+function getSensorInfo() {
+    var NaNchecker = isNaN(document.getElementById("sensor1Txt").value) || isNaN(document.getElementById("sensor2Txt").value);
+    var noneChecker1 = (document.getElementById("sensor1Txt").value == 'none');
+    var noneChecker2 = (document.getElementById("sensor2Txt").value == 'none');
+    if(!NaNchecker || noneChecker1 || noneChecker2) { //if number or 'none'
+        /*
+         * sensorXType lookup: 
+         * -1 = not used
+         * 5 = ultrasonic
+         * 10 = touch
+         * 
+         * ID# = ID# intended
+         * 
+         */
+        if(noneChecker1) {
+            sensor1Type = -1;
+            sensor1ID = -1;
+        } else {
+            if(document.getElementById("sensor1Select").selectedIndex == 0 ){ //ultrasonic
+                sensor1Type = 5;
+            } else {
+                sensor1Type = 10; //touch
+            }
+            sensor1ID = parseInt(document.getElementById("sensor1Txt").value);
+        }
+        if(noneChecker2) {
+            sensor2Type = -1;
+            sensor2ID = -1;
+        } else {
+            if(document.getElementById("sensor2Select").selectedIndex == 0 ){ //ultrasonic
+                sensor2Type = 5;
+            } else {
+                sensor2Type = 10; //touch
+            }
+            sensor2ID = parseInt(document.getElementById("sensor2Txt").value);
+        }
+        document.getElementById("sensorLbl").innerHTML = "Sensor values assigned. (5 = ultra, 10 = touch, -1 = not used) Sensor1 is of type " + sensor1Type + " with ID#: " + sensor1ID + " Sensor2 is of Type " + sensor2Type + " with ID#: " + sensor2ID 
+        
+    } //end outer if
+    else {
+        document.getElementById("sensorLbl").innerHTML = "Please input an integer for the sensor ID #s or put 'none' if not using";
+        
+        
+    }
+}
+
 function startServer(){
     alert("Starting Server");
     //connect to VIPLE
