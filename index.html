@@ -167,6 +167,7 @@
                         indCont.rotate(0*Math.PI/180);
                         indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
                         indCont.restore();
+                        
                     }
                     
                     function rotateIndicatorLeft() {
@@ -291,12 +292,12 @@
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                            document.getElementById("testing3").innerHTML = 'YepUp';
+                            
                         } else if(upDist < 10 && upDist > 0) {
                             drawRectangle(newX, newY - upDist + 10, "#0000FF");
                             currRectX = newX;
                             currRectY = newY - upDist + 10;
-                            document.getElementById("testing3").innerHTML = 'nopeUp';
+                            
                         }
                       
                         measureDist();
@@ -345,7 +346,7 @@
                             currRectX = newX + rightDist - 10;
                             currRectY = newY;
                         }
-                        measureDist(); 
+                        measureDist();
                     }
                     
                     function canMoveTo(destX, destY) {
@@ -432,18 +433,35 @@
             <div>
                 <h2>Input Sensor Values</h2>
                 <h4>Enter 'none' if you don't plan on using that sensor.</h4>
+                <h4><strong>BE SURE TO CLICK THE 'Add/Update Sensors' BUTTON TO ENSURE THAT THE VALUES OF THE SENSORS ARE SET</strong></h4>
                 <div class="panel panel-default">
                     <input type="text" id="sensor1Txt" value="ID of Sensor1">
                     <select id="sensor1Select">
                         <option>Ultrasonic Sensor</option>
                         <option>Touch Sensor</option>
                     </select>
+                     <select id="sensor1DirSelect">
+                        <option>Front</option>
+                        <option>Back</option>
+                        <option>Left</option>
+                        <option>Right</option>
+                    </select>
+                </div>
+                <div>
                     <input type="text" id="sensor2Txt" value="ID of Sensor2">
                     <select id="sensor2Select">
                         <option>Ultrasonic Sensor</option>
                         <option>Touch Sensor</option>
                     </select>
-                    <a href="#" class="btn btn-default" onclick="getSensorInfo()">Add Sensors</a>
+                    <select id="sensor2DirSelect">
+                        <option>Front</option>
+                        <option>Back</option>
+                        <option>Left</option>
+                        <option>Right</option>
+                    </select>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-default" onclick="getSensorInfo()">Add/Update Sensors</a>
                     <p id="sensorLbl"> </p>
                 </div>
             </div>

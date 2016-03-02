@@ -1,6 +1,82 @@
 
 var connection;
 
+function WSsendSensorInfo() {
+    
+    /*
+     * 
+     * Direction <select> Lookup table
+     * Front = 0
+     * Back = 1
+     * Left = 2
+     * Right = 3
+     */
+    
+    //'{"sensors": [{"name":"touch", "id":0, "value":0}, {"name":"distance", "id":0, "value":12.8}]}'
+    var messageToSend ='{"sensors": [' 
+    var sensor1message = '{"name":' + sensor1Type + ', "id":' + sensor1ID +  ', "value":';
+    var sensor2message = '{"name":' + sensor2Type + ', "id":' + sensor2ID +  ', "value":';
+    var messageCloser = ']}';
+    var sens1val;
+    var sens2val;
+    var dists = new Array(upDist, leftDist, downDist, rightDist);
+    
+    if(document.getElementById("sensor1DirSelect").selectedIndex == 0) {
+        sens1val = dists[heading];
+    } else if(document.getElementById("sensor1DirSelect").selectedIndex == 1) { //back
+        if(heading < 2) {sens1val = dists[heading + 2];} //head = 0 or 1
+        else if(heading >= 2) {sens1val = dists[heading - 2];} //head = 2 or 3
+    } else if(document.getElementById("sensor1DirSelect").selectedIndex == 2) { //left
+        if(heading <= 2) {sens1val = dists[heading + 1];}
+        else if(heading == 3) {sens1val = dists[0];}
+    } else {
+        if(heading > 0) {sens1val = dists[heading - 1];}
+        else {sens1val = dists[3]}
+    } //right
+    
+    if(sensor1Type == '"touch"') { //sens1val is now up, down, left, or right dist
+        if(sens1val < 6) { sens1val = 1;}
+        else {sens1val = 0}
+    }
+    
+    sensor1message = sensor1message + sens1val + '}';
+    
+    if(document.getElementById("sensor2DirSelect").selectedIndex == 0) {
+        sens2val = dists[heading];
+    } else if(document.getElementById("sensor2DirSelect").selectedIndex == 1) { //back
+        if(heading < 2) {sens2val = dists[heading + 2];} //head = 0 or 1
+        else if(heading >= 2) {sens2val = dists[heading - 2];} //head = 2 or 3
+    } else if(document.getElementById("sensor2DirSelect").selectedIndex == 2) { //left
+        if(heading <= 2) {sens2val = dists[heading + 1];}
+        else if(heading == 3) {sens2val = dists[0];}
+    } else {
+        if(heading > 0) {sens2val = dists[heading - 1];}
+        else {sens2val = dists[3]}
+    } //right
+    
+    if(sensor1Type == '"touch"') { //sens1val is now up, down, left, or right dist
+        if(sens1val < 6) { sens1val = 1;}
+        else {sens1val = 0}
+    }
+    sensor2message = sensor2message + sens2val + '}'; 
+    
+    if(sensor2Type ==  -1 && sensor1Type == -1) {return;}
+    if(sensor1Type == -1 && (sensor2Type == '"touch"' || sensor2Type == '"distance"')) {
+        messageToSend = messageToSend + sensor2message + messageCloser;
+    }
+    else if(sensor2Type == -1 && (sensor1Type == '"touch"' || sensor1Type == '"distance"')){
+        messageToSend = messageToSend + sensor1message + messageCloser;
+    }else {
+        messageToSend = messageToSend + sensor1message + ', ' + sensor2message + messageCloser;
+        
+    }
+
+    connection.send(messageToSend);
+    document.getElementById("testing3").innerHTML = messageToSend;
+    //test command below in case anything breaks
+    //connection.send("{\"sensors\": [{\"name\":\"touch\", \"id\":0, \"value\":0}, {\"name\":\"distance\", \"id\":3, \"value\":12.8}]}");
+}
+
 function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Robot
     //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
     document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
@@ -9,7 +85,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         accuRight = 0;}
     accuLeft = accuLeft + leftWheelPower;
     accuRight = accuRight + rightWheelPower;
-    if((accuLeft - accuRight) >= 1.5) {
+    if((accuLeft - accuRight) >= 2.0) {
         if(heading == 0) {
             makeWhite(currRectX, currRectY, rWidth,rHeight);
             swapDim();
@@ -47,7 +123,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         }
         accuLeft = 0;
         accuRight = 0;
-    } else if((accuRight - accuLeft) >= 1.5) { //turning left
+    } else if((accuRight - accuLeft) >= 2.0) { //turning left
         if(heading == 3) {
             heading = 0;
             makeWhite(currRectX, currRectY, rWidth,rHeight);
@@ -112,8 +188,10 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             moveLeft();
         }
     }
+    WSsendSensorInfo();
     var t = setTimeout(periodicMovement, 250);
 }
+
 
 function getSensorInfo() {
     var NaNchecker = isNaN(document.getElementById("sensor1Txt").value) || isNaN(document.getElementById("sensor2Txt").value);
@@ -134,9 +212,9 @@ function getSensorInfo() {
             sensor1ID = -1;
         } else {
             if(document.getElementById("sensor1Select").selectedIndex == 0 ){ //ultrasonic
-                sensor1Type = 5;
+                sensor1Type = '"distance"';
             } else {
-                sensor1Type = 10; //touch
+                sensor1Type = '"touch"'; //touch
             }
             sensor1ID = parseInt(document.getElementById("sensor1Txt").value);
         }
@@ -145,13 +223,13 @@ function getSensorInfo() {
             sensor2ID = -1;
         } else {
             if(document.getElementById("sensor2Select").selectedIndex == 0 ){ //ultrasonic
-                sensor2Type = 5;
+                sensor2Type = '"distance"';
             } else {
-                sensor2Type = 10; //touch
+                sensor2Type = '"touch"'; //touch
             }
             sensor2ID = parseInt(document.getElementById("sensor2Txt").value);
         }
-        document.getElementById("sensorLbl").innerHTML = "Sensor values assigned. (5 = ultra, 10 = touch, -1 = not used) Sensor1 is of type " + sensor1Type + " with ID#: " + sensor1ID + " Sensor2 is of Type " + sensor2Type + " with ID#: " + sensor2ID 
+        document.getElementById("sensorLbl").innerHTML = "Sensor values assigned. (distance = ultra, touch = touch, -1 = not used) Sensor1 is of type " + sensor1Type + " with ID#: " + sensor1ID + " Sensor2 is of Type " + sensor2Type + " with ID#: " + sensor2ID 
         
     } //end outer if
     else {
