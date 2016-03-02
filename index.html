@@ -126,10 +126,10 @@
                     var downDist;
                     var leftDist;
                     var rightDist;
-                    var sensor1Type = 0;
-                    var sensor1ID = 0;
-                    var sensor2Type = 0;
-                    var sensor2ID = 0;
+                    var sensor1Type = -1;
+                    var sensor1ID = -1;
+                    var sensor2Type = -1;
+                    var sensor2ID = -1;
                     
                     
                     //**********************************************************
@@ -461,7 +461,7 @@
                     </select>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-default" onclick="getSensorInfo()">Add/Update Sensors</a>
+                    <a class="btn btn-default" onclick="getSensorInfo()">Add/Update Sensors</a>
                     <p id="sensorLbl"> </p>
                 </div>
             </div>
@@ -470,7 +470,7 @@
                 <h2>Connect to VIPLE</h2>
                 <div class="panel panel-default">
                     <input type="text" id="ipTxt" value="Input the listening server's IP address.">
-                    <a href="#" class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
+                    <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
             <div>
