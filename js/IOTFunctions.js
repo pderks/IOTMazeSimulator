@@ -87,7 +87,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     accuRight = accuRight + rightWheelPower;
     if((accuLeft - accuRight) >= 2.0) {
         if(heading == 0) {
-            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             rotateIndicatorRight();
             drawRectangle(newX-12.5, newY+12.5, "#0000FF");
@@ -95,7 +95,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             moveRight();
             moveLeft();
         } else {
-            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             if(heading == 1) rotateIndicatorFront();
             if(heading == 2) rotateIndicatorLeft();
@@ -126,7 +126,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     } else if((accuRight - accuLeft) >= 2.0) { //turning left
         if(heading == 3) {
             heading = 0;
-            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             rotateIndicatorFront();
             drawRectangle(newX+12.5, newY-12.5, "#0000FF");
@@ -134,7 +134,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
             moveDown();
         } //facing right
         else {
-            makeWhite(currRectX, currRectY, rWidth,rHeight);
+            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             if(heading == 2) rotateIndicatorRight();
             if(heading == 1) rotateIndicatorBack();

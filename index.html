@@ -200,7 +200,7 @@
                     }
                     
                     function drawRectangle(x, y, style) {
-                        makeWhite(currRectX, currRectY, rWidth,rHeight);
+                        makeWhite(currRectX-1, currRectY-1, rWidth+2,rHeight+2);
                         currRectX = x;
                         currRectY = y;
                         context.beginPath();
