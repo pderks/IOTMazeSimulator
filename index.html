@@ -440,7 +440,12 @@
                             } else {                                
                                 txt += "Your file has been uploaded: ";
                                 var file = x.files[0];
-                                mazeImg.src = URL.createObjectURL(file)
+                                mazeImg.src = URL.createObjectURL(file);
+                                canvas.width = mazeImg.width; 
+                                        //document.getElementById("upCanvWidth").value;
+                                canvas.height = mazeImg.height;
+                                        //document.getElementById("upCanvHeight").value;
+                                
                                 if ('name' in file) {
                                     txt += "name: " + file.name + "<br>";
                                 }
@@ -517,7 +522,7 @@
             <div class="col-md-4">
                 <h2>Connect to VIPLE</h2>
                 <div class="panel panel-default">
-                    <input type="text" id="ipTxt" value="Input the listening server's IP address.">
+                    <input type="text" id="ipTxt" value="localhost">
                     <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
@@ -536,6 +541,10 @@
                     <input type="file" id="myFile">
                     <input type="text" id="XNewMazeCoordinate" value="Desired starting X Coordinate">
                     <input type="text" id="YNewMazeCoordinate" value="Desired starting Y Coordinate">
+                </p>
+                <p>
+                    <input type="text" id="upCanvHeight" value="Height of uploaded image (pixels)">
+                    <input type="text" id="upCanvWidth" value="Width of uploaded image (pixels)">
                 </p>
                 <a class="btn btn-default" onclick="checkFilesUploaded()">Select image as new maze.</a>
                 <p id ="myFileNames" ></p>
