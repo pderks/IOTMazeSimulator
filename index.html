@@ -24,6 +24,7 @@
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="./path/to/dropzone.js"></script>
     <![endif]-->
 
 </head>
@@ -104,6 +105,8 @@
                     var rHeight = 75;
                     var rWidth = 50;
                     var rTemp = 0;
+                    var mazeImg = new Image();
+                    mazeImg.src = "mazebold.jpg"
                     
                     //Indicator Dimensions
                     var indCanv = document.getElementById("indicatorCanvas");
@@ -132,12 +135,12 @@
                     var sensor2ID = -1;
                     
                     
+                    
                     //**********************************************************
                     // Start of Drawing Functions
                     //**********************************************************
                     function drawMazeAndRectangle(rectX, rectY) {
                         makeWhite(0, 0, canvas.width, canvas.height);
-                        var mazeImg = new Image();
                         mazeImg.onload = function () {
                             context.drawImage(mazeImg, 0, 0);
 
@@ -149,7 +152,7 @@
                             context.fillStyle = '#00FF00';
                             context.fill();
                         };
-                        mazeImg.src = "mazebold.jpg";
+                        ;
                     }
                     function drawIndicatorCanvas() {
                         makeWhite(0, 0, indCanv.width, indCanv.height);
@@ -419,6 +422,52 @@
                     //**********************************************************
                     // End of Movement Functions
                     //**********************************************************
+                    
+                    
+                    
+                    
+                    //**********************************************************
+                    // File Upload
+                    //**********************************************************
+                    function checkFilesUploaded(){
+                        var x = document.getElementById("myFile");
+                        var txt = "";
+                        if (isNaN(document.getElementById("XNewMazeCoordinate").value) || isNaN(document.getElementById("YNewMazeCoordinate").value)) {
+                            txt = "One of the two coordinates designated are not numbers."
+                        }
+                        else if ('files' in x) {
+                            if (x.files.length == 0) {
+                                txt = "Select one or more files.";
+                            } else {                                
+                                txt += "Your file has been uploaded: ";
+                                var file = x.files[0];
+                                mazeImg.src = URL.createObjectURL(file)
+                                if ('name' in file) {
+                                    txt += "name: " + file.name + "<br>";
+                                }
+                                if ('size' in file) {
+                                    txt += "size: " + file.size + " bytes <br>";
+                                }
+                                
+                                drawMazeAndRectangle(document.getElementById("XNewMazeCoordinate").value, 
+                                document.getElementById("YNewMazeCoordinate").value);
+                            }
+                        } 
+                        else {
+                            if (x.value == "") {
+                                txt += "Select one or more files.";
+                            } else {
+                                txt += "The files property is not supported by your browser!";
+                                txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+                            }
+                        }
+                        document.getElementById("myFileNames").innerHTML = txt;
+                    }
+                    
+                    
+                    //**********************************************************
+                    // End of File Upload
+                    //**********************************************************
               
                     
                     drawMazeAndRectangle(1290, 443);
@@ -427,7 +476,7 @@
                     
                 </script>
                 <script src="js/IOTFunctions.js"> </script>
-                
+                <script src="js/dropzone.js"> </script>
                 <!-- END MAZE CODE -->               
             </div>
             <div>
@@ -481,6 +530,19 @@
                 <h4>4.) Click the <strong>Connect to ASU VIPLE (Websockets)</strong> button.</h4>
                 <h4>5.) Note that motor "3" will be left, motor "5" will be right.</h4>
             </div>
+            
+            <div>
+                <h2>Upload Image for New Maze</h2>
+                <p>
+                    <input type="file" id="myFile">
+                    <input type="text" id="XNewMazeCoordinate" value="Desired starting X Coordinate">
+                    <input type="text" id="YNewMazeCoordinate" value="Desired starting Y Coordinate">
+                </p>
+                <a class="btn btn-default" onclick="checkFilesUploaded()">Select image as new maze.</a>
+                <p id ="myFileNames" ></p>
+            </div>  
+      
+
          
             
         </div>
