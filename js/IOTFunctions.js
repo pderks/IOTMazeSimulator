@@ -54,9 +54,9 @@ function WSsendSensorInfo() {
         else {sens2val = dists[3]}
     } //right
     
-    if(sensor1Type == '"touch"') { //sens1val is now up, down, left, or right dist
-        if(sens1val < 6) { sens1val = 1;}
-        else {sens1val = 0}
+    if(sensor2Type == '"touch"') { //sens1val is now up, down, left, or right dist
+        if(sens2val < 6) { sens2val = 1;}
+        else {sens2val = 0}
     }
     sensor2message = sensor2message + sens2val + '}'; 
     
@@ -87,78 +87,31 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     accuRight = accuRight + rightWheelPower;
     if((accuLeft - accuRight) >= 2.0) {
         if(heading == 0) {
-            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             rotateIndicatorRight();
-            drawRectangle(newX-12.5, newY+12.5, "#0000FF");
             heading = 3;
-            moveRight();
-            moveLeft();
         } else {
-            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             if(heading == 1) rotateIndicatorFront();
             if(heading == 2) rotateIndicatorLeft();
             if(heading == 3) rotateIndicatorBack();
-            
-            if(heading == 1 || heading == 3) drawRectangle(newX+12.5, newY-12.5, "#0000FF");
-            else drawRectangle(newX-12.5, newY+12.5, "#0000FF");
+
             heading--; 
-            
-            if(heading == 0)
-            {
-                moveUp();
-                moveDown();
-            }
-            if(heading == 1)
-            {
-                moveLeft();
-                moveRight();
-            }
-            if(heading == 2)
-            {
-                moveDown();
-                moveUp();
-            }
         }
         accuLeft = 0;
         accuRight = 0;
     } else if((accuRight - accuLeft) >= 2.0) { //turning left
         if(heading == 3) {
-            heading = 0;
-            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             rotateIndicatorFront();
-            drawRectangle(newX+12.5, newY-12.5, "#0000FF");
-            moveUp();
-            moveDown();
+            heading = 0;
         } //facing right
         else {
-            makeWhite(currRectX, currRectY, rWidth+1,rHeight+1);
             swapDim();
             if(heading == 2) rotateIndicatorRight();
             if(heading == 1) rotateIndicatorBack();
             if(heading == 0) rotateIndicatorLeft();
-            
-            if(heading == 0 || heading == 2) drawRectangle(newX-12.5, newY+12.5, "#0000FF");
-            else drawRectangle(newX+12.5, newY-12.5, "#0000FF");
             heading++;
-            
-            if(heading == 1)
-            {
-                moveLeft();
-                moveRight();
-            }
-            if(heading == 2)
-            {
-                moveDown();
-                moveUp();
-            }
-            if(heading == 3)
-            {
-                moveRight();
-                moveLeft();
-            }
         };
         accuLeft = 0;
         accuRight = 0;
@@ -273,7 +226,7 @@ function startServer(){
     }    
 }
 
-
+/*
 function up(){
     var newX;
     var newY;
@@ -312,5 +265,4 @@ function stop(){
 }    
                     
                     
-                
-     
+*/

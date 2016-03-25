@@ -101,7 +101,7 @@
                     var mazeWidth = 1450;
                     var mazeHeight = 640;
                     var intervalVar;
-                    var rHeight = 75;
+                    var rHeight = 80;
                     var rWidth = 50;
                     var rTemp = 0;
                     var mazeImg = new Image();
@@ -200,7 +200,7 @@
                     }
                     
                     function drawRectangle(x, y, style) {
-                        makeWhite(currRectX-1, currRectY-1, rWidth+2,rHeight+2);
+                        makeWhite(currRectX, currRectY, rWidth, rHeight);
                         currRectX = x;
                         currRectY = y;
                         context.beginPath();
@@ -224,9 +224,19 @@
                     }
                     
                     function swapDim(){
+                        makeWhite(currRectX, currRectY, rWidth, rHeight);
+                        if(heading == 0 || heading == 2) {
+                            currRectX = currRectX - 15;
+                            currRectY = currRectY + 15;
+                        }
+                        else {
+                            currRectX = currRectX + 15;
+                            currRectY = currRectY - 15;
+                        }
                         rTemp = rHeight;
                         rHeight = rWidth;
                         rWidth = rTemp;
+                        drawRectangle(currRectX, currRectY, "0000FF");
                     }
                     //**********************************************************
                     // End of Drawing Functions
@@ -374,8 +384,7 @@
                     }
                     
                     function moveRect(e) {
-                        /*
-                        var movingAllowed;
+                        /*var movingAllowed;
 
                         e = e || window.event;
                         switch (e.keyCode) {
@@ -386,8 +395,7 @@
                                 break;
                             case 37: // arrow left key
                             case 65: // A key
-                                newX = currRectX - 10;
-                                newY = currRectY;
+                                moveLeft();
                                 break;
                             case 40: // arrow down key
                             case 83: // S key
@@ -396,10 +404,9 @@
                                 break;
                             case 39: // arrow right key
                             case 68: // D key
-                                newX = currRectX + 10;
-                                newY = currRectY;
+                                moveRight();
                                 break; 
-                        }
+                        }*/
                         movingAllowed = canMoveTo(newX, newY);
                         
                         if (movingAllowed === 1) {// 1 means 'the rectangle can move'
@@ -416,7 +423,7 @@
                             context.textBaseline = "middle";
                             context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
                             window.removeEventListener("keydown", moveRect, true);
-                        }*/
+                        }
                     }
                     //**********************************************************
                     // End of Movement Functions
@@ -474,7 +481,7 @@
                     //**********************************************************
               
                     
-                    drawMazeAndRectangle(1290, 443);
+                    drawMazeAndRectangle(1290, 343);
                     drawIndicatorCanvas(300,300);
                     window.addEventListener("keydown", moveRect, true);
                     
