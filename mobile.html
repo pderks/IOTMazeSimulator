@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <title>Robot Maze Simulator</title>
+     
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Header Carousel -->
+    <header id="myCarousel" class="carousel slide" style="height: 400px;">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="fill" style="background-image:url('https://www.adafruit.com/images/1200x900/2112-00.jpg');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url('http://techliveinfo.com/wp-content/uploads/2014/06/intel-look-inside.jpg');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <div class="fill" style="background-image:url('http://www.public.asu.edu/~sskamat/img/ASU%20Logo.jpg');"></div>
+                <div class="carousel-caption">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    ASU IOT Maze Simulator
+                </h1>
+                
+                <!-- BEGIN MAZE CODE -->
+                <div>
+                <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <canvas width="300" height="300" id="indicatorCanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                </div>
+                <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
+                
+                <!-- IOT FUNCTIONS -->
+               
+                <script>
+                    // Maze game created by ProgramFOX; http://www.codeproject.com/Members/ProgramFOX
+                    // Licensed under CPOL: http://www.codeproject.com/info/cpol10.aspx
+
+                    // 425 (X), 3 (Y) RECTANGLE
+                    // 542 (center X), 122 (center Y) CIRCLE
+                    var canvas = document.getElementById("mazecanvas");
+                    var context = canvas.getContext("2d");
+                    var currRectX;
+                    var currRectY;
+                    var mazeWidth = 1450;
+                    var mazeHeight = 640;
+                    var intervalVar;
+                    var rHeight = 80;
+                    var rWidth = 50;
+                    var rTemp = 0;
+                    var mazeImg = new Image();
+                    mazeImg.src = "mazebold.jpg"
+                    
+                    //Indicator Dimensions
+                    var indCanv = document.getElementById("indicatorCanvas");
+                    var indCont = indCanv.getContext("2d");
+                    var indWindowWidth = 300;
+                    var indWindowHeight = 300;
+                    var indImg = new Image();
+                    indImg.src = "boldicator.jpg";
+                    
+                    var leftWheelPower = 0;
+                    var isLeftTurn = false;
+                    var isRightTurn = false;
+                    var rightWheelPower = 0;
+                    var heading = 0;
+                    var accuLeft = 0;
+                    var accuRight = 0;
+                    var newX;
+                    var newY;
+                    var upDist;
+                    var downDist;
+                    var leftDist;
+                    var rightDist;
+                    var sensor1Type = -1;
+                    var sensor1ID = -1;
+                    var sensor2Type = -1;
+                    var sensor2ID = -1;
+                    
+                    
+                    
+                    //**********************************************************
+                    // Start of Drawing Functions
+                    //**********************************************************
+                    function drawMazeAndRectangle(rectX, rectY) {
+                        makeWhite(0, 0, canvas.width, canvas.height);
+                        mazeImg.onload = function () {
+                            context.drawImage(mazeImg, 0, 0);
+
+
+                            drawRectangle(rectX, rectY, "#0000FF");
+                            context.beginPath();
+                            //context.arc(542, 122, 7, 0, 2 * Math.PI, false);
+                            context.closePath();
+                            context.fillStyle = '#00FF00';
+                            context.fill();
+                        };
+                        ;
+                    }
+                    function drawIndicatorCanvas() {
+                        makeWhite(0, 0, indCanv.width, indCanv.height);
+                        indImg.onload = function () {
+                            indCont.drawImage(indImg, 0, 0);
+                            indCont.fill();
+                        };
+                        
+                    }
+                    
+                    function rotateIndicatorFront() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(0*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                        
+                    }
+                    
+                    function rotateIndicatorLeft() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(270*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function rotateIndicatorRight() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(90*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function rotateIndicatorBack() {
+                        indCont.clearRect(0,0,indCanv.width,indCanv.height);
+                        indCont.save();
+                        indCont.translate(indCanv.width/2,indCanv.height/2);
+                        indCont.rotate(180*Math.PI/180);
+                        indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
+                        indCont.restore();
+                    }
+                    
+                    function drawRectangle(x, y, style) {
+                        makeWhite(currRectX, currRectY, rWidth, rHeight);
+                        currRectX = x;
+                        currRectY = y;
+                        context.beginPath();
+                        context.rect(x, y, rWidth, rHeight);
+                        context.closePath();
+
+                        //var grd=context.rect.createRadialGradient(75,50,5,90,60,100);
+                        //grd.addColorStop(0,"red");
+                        //grd.addColorStop(1,"black");
+
+                        context.fillStyle = "#0000FF";
+                        context.fillRect(x, y, rWidth, rHeight);
+                    }
+                    
+                    function makeWhite(x, y, w, h) {
+                        context.beginPath();
+                        context.rect(x, y, w, h);
+                        context.closePath();
+                        context.fillStyle = "white";
+                        context.fill();
+                    }
+                    
+                    function swapDim(){
+                        makeWhite(currRectX, currRectY, rWidth, rHeight);
+                        if(heading == 0 || heading == 2) {
+                            currRectX = currRectX - 15;
+                            currRectY = currRectY + 15;
+                        }
+                        else {
+                            currRectX = currRectX + 15;
+                            currRectY = currRectY - 15;
+                        }
+                        rTemp = rHeight;
+                        rHeight = rWidth;
+                        rWidth = rTemp;
+                        drawRectangle(currRectX, currRectY, "0000FF");
+                    }
+                    //**********************************************************
+                    // End of Drawing Functions
+                    //**********************************************************
+                    
+                    //**********************************************************
+                    // Start of Movement Functions
+                    //**********************************************************
+                    function measureDist() {
+                        var countUp = currRectY;
+                        var countDown = currRectY;
+                        var countLeft = currRectX;
+                        var countRight = currRectX;
+                        var findDistance = 9001;
+                        upDist = 0;
+                        downDist = 0;
+                        leftDist = 0;
+                        rightDist = 0;
+                        
+                        //up
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countUp);
+                            countUp--;
+                        }
+                        
+                        upDist = currRectY - countUp - 3;
+                        findDistance = 9001;
+                        
+                        //down 
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countDown);
+                            countDown++;
+                        }
+                        findDistance = 9001; 
+                        downDist = countDown - currRectY - 3;
+                        
+                        //left
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countLeft, currRectY);
+                            countLeft--;
+                        }
+                        findDistance = 9001;
+                        leftDist = currRectX - countLeft - 3;
+                        
+                        //right
+                        while(findDistance != 0)
+                        {
+                            findDistance = canMoveTo(countRight, currRectY);
+                            countRight++;
+                        }
+
+                        rightDist = countRight - currRectX - 3;
+                        document.getElementById("testing").innerHTML = 'Current distance readings: Up: ' + upDist + ' Down: ' + downDist + ' left: ' + leftDist + ' right ' + rightDist;
+                        
+                    }
+                    function moveUp(){
+                        newX = currRectX;
+                        newY = currRectY - 10;
+                        
+                        
+                        if(upDist >= 10){
+                            drawRectangle(newX, newY, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY;
+                            
+                        } else if(upDist < 10 && upDist > 0) {
+                            drawRectangle(newX, newY - upDist + 10, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY - upDist + 10;
+                            
+                        }
+                      
+                        measureDist();
+                    }
+                    
+                    function moveDown(){
+                        newX = currRectX;
+                        newY = currRectY + 10;
+                        
+                        if(downDist >= 10){
+                            drawRectangle(newX, newY, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY;
+                        } else if(downDist < 10 && downDist > 0) {
+                            drawRectangle(newX, newY + downDist - 10, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY + downDist - 10;
+                        }
+                        measureDist();
+                    }
+                    
+                    function moveLeft(){
+                        newX = currRectX - 10;
+                        newY = currRectY;
+                        if(leftDist >= 10){
+                            drawRectangle(newX, newY, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY;
+                        } else if(leftDist < 10 && leftDist > 0) {
+                            drawRectangle(newX - leftDist + 10, newY, "#0000FF");
+                            currRectX = newX - leftDist + 10;
+                            currRectY = newY;
+                        }
+                        measureDist();
+                    }
+                    
+                    function moveRight(){
+                        newX = currRectX + 10;
+                        newY = currRectY;
+                        if(rightDist >= 10){
+                            drawRectangle(newX, newY, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY;
+                        } else {
+                            drawRectangle(newX + rightDist - 10, newY, "#0000FF");
+                            currRectX = newX + rightDist - 10;
+                            currRectY = newY;
+                        }
+                        measureDist();
+                    }
+                    
+                    function canMoveTo(destX, destY) {
+                        var imgData = context.getImageData(destX, destY, rWidth, rHeight);
+                        var data = imgData.data;
+                        var canMove = 1; // 1 means: the rectangle can move
+                        if (destX >= 0 && destX <= mazeWidth - rWidth && destY >= 0 && destY <= mazeHeight - rHeight) {
+                            for (var i = 0; i < 4 * rHeight * rWidth; i += 4) {
+                                if (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0) { // black
+                                    canMove = 0; // 0 means: the rectangle can't move
+                                    break;
+                                }
+                                else if (data[i] === 0 && data[i + 1] === 255 && data[i + 2] === 0) { // #00FF00
+                                    canMove = 2; // 2 means: the end point is reached
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            canMove = 0;
+                        }
+                        return canMove;
+                    }
+                    
+                    function moveRect(e) {
+                        /*var movingAllowed;
+
+                        e = e || window.event;
+                        switch (e.keyCode) {
+                            case 38:   // arrow up key
+                            case 87: // W key
+                                newX = currRectX;
+                                newY = currRectY - 10;
+                                break;
+                            case 37: // arrow left key
+                            case 65: // A key
+                                moveLeft();
+                                break;
+                            case 40: // arrow down key
+                            case 83: // S key
+                                newX = currRectX;
+                                newY = currRectY + 10;
+                                break;
+                            case 39: // arrow right key
+                            case 68: // D key
+                                moveRight();
+                                break; 
+                        }*/
+                        movingAllowed = canMoveTo(newX, newY);
+                        
+                        if (movingAllowed === 1) {// 1 means 'the rectangle can move'
+                            drawRectangle(newX, newY, "#0000FF");
+                            currRectX = newX;
+                            currRectY = newY;
+                        }
+                        else if (movingAllowed === 2) { // 2 means 'the rectangle reached the end point'
+                            clearInterval(intervalVar);
+                            makeWhite(0, 0, canvas.width, canvas.height);
+                            context.font = "40px Arial";
+                            context.fillStyle = "blue";
+                            context.textAlign = "center";
+                            context.textBaseline = "middle";
+                            context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
+                            window.removeEventListener("keydown", moveRect, true);
+                        }
+                    }
+                    //**********************************************************
+                    // End of Movement Functions
+                    //**********************************************************
+                    
+                    
+                    
+                    
+                    //**********************************************************
+                    // File Upload
+                    //**********************************************************
+                    function checkFilesUploaded(){
+                        var x = document.getElementById("myFile");
+                        var txt = "";
+                        if (isNaN(document.getElementById("XNewMazeCoordinate").value) || isNaN(document.getElementById("YNewMazeCoordinate").value)) {
+                            txt = "One of the two coordinates designated are not numbers."
+                        }
+                        else if ('files' in x) {
+                            if (x.files.length == 0) {
+                                txt = "Select one or more files.";
+                            } else {                                
+                                txt += "Your file has been uploaded: ";
+                                var file = x.files[0];
+                                mazeImg.src = URL.createObjectURL(file);
+                                canvas.width = mazeImg.width; 
+                                        //document.getElementById("upCanvWidth").value;
+                                canvas.height = mazeImg.height;
+                                        //document.getElementById("upCanvHeight").value;
+                                
+                                if ('name' in file) {
+                                    txt += "name: " + file.name + "<br>";
+                                }
+                                if ('size' in file) {
+                                    txt += "size: " + file.size + " bytes <br>";
+                                }
+                                
+                                drawMazeAndRectangle(document.getElementById("XNewMazeCoordinate").value, 
+                                document.getElementById("YNewMazeCoordinate").value);
+                            }
+                        } 
+                        else {
+                            if (x.value == "") {
+                                txt += "Select one or more files.";
+                            } else {
+                                txt += "The files property is not supported by your browser!";
+                                txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+                            }
+                        }
+                        document.getElementById("myFileNames").innerHTML = txt;
+                    }
+                    
+                    
+                    //**********************************************************
+                    // End of File Upload
+                    //**********************************************************
+              
+                    
+                    drawMazeAndRectangle(1290, 343);
+                    drawIndicatorCanvas(300,300);
+                    window.addEventListener("keydown", moveRect, true);
+                    
+                </script>
+                <script src="js/IOTFunctions.js"> </script>
+                
+                <!-- END MAZE CODE -->               
+            </div>
+            <div>
+                <h2>Input Sensor Values</h2>
+                <h4>Enter 'none' if you don't plan on using that sensor.</h4>
+                <h4><strong>BE SURE TO CLICK THE 'Add/Update Sensors' BUTTON TO ENSURE THAT THE VALUES OF THE SENSORS ARE SET</strong></h4>
+                <div class="panel panel-default">
+                    <input type="text" id="sensor1Txt" value="ID of Sensor1">
+                    <select id="sensor1Select">
+                        <option>Ultrasonic Sensor</option>
+                        <option>Touch Sensor</option>
+                    </select>
+                     <select id="sensor1DirSelect">
+                        <option>Front</option>
+                        <option>Back</option>
+                        <option>Left</option>
+                        <option>Right</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="text" id="sensor2Txt" value="ID of Sensor2">
+                    <select id="sensor2Select">
+                        <option>Ultrasonic Sensor</option>
+                        <option>Touch Sensor</option>
+                    </select>
+                    <select id="sensor2DirSelect">
+                        <option>Front</option>
+                        <option>Back</option>
+                        <option>Left</option>
+                        <option>Right</option>
+                    </select>
+                </div>
+                <div>
+                    <a class="btn btn-default" onclick="getSensorInfo()">Add/Update Sensors</a>
+                    <p id="sensorLbl"> </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <h2>Connect to VIPLE</h2>
+                <div class="panel panel-default">
+                    <input type="text" id="ipTxt" value="localhost">
+                    <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
+                </div>
+            </div>
+            <div>
+                <h2>Instructions on using this on the same computer:</h2>
+                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has <strong>8124</strong> as its TCP port. </h4>
+                <h4>2.) Run ASU VIPLE Program</h4>
+                <h4>3.) Enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
+                <h4>4.) Click the <strong>Connect to ASU VIPLE (Websockets)</strong> button.</h4>
+                <h4>5.) Note that motor "3" will be left, motor "5" will be right.</h4>
+            </div>
+            
+            <div>
+                <h2>Upload Image for New Maze</h2>
+                <p>
+                    <input type="file" id="myFile">
+                    <input type="text" id="XNewMazeCoordinate" value="Desired starting X Coordinate">
+                    <input type="text" id="YNewMazeCoordinate" value="Desired starting Y Coordinate">
+                </p>
+                <p>
+                    <input type="text" id="upCanvHeight" value="Height of uploaded image (pixels)">
+                    <input type="text" id="upCanvWidth" value="Width of uploaded image (pixels)">
+                </p>
+                <a class="btn btn-default" onclick="checkFilesUploaded()">Select image as new maze.</a>
+                <p id ="myFileNames" ></p>
+            </div>  
+      
+
+         
+            
+        </div>
+        <!-- /.row -->
+
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p id="testing"> </p>
+                    <p id="testing2"> </p>
+                    <p id="testing3"> </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+</body>
+
+</html>
