@@ -148,9 +148,11 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
 
 function getSensorInfo() {
     var NaNchecker = isNaN(document.getElementById("sensor1Txt").value) || isNaN(document.getElementById("sensor2Txt").value);
+    var nullChecker =(document.getElementById("sensor1Txt").value == '' || document.getElementById("sensor2Txt").value == '');
     var noneChecker1 = (document.getElementById("sensor1Txt").value == 'none');
     var noneChecker2 = (document.getElementById("sensor2Txt").value == 'none');
-    if(!NaNchecker || noneChecker1 || noneChecker2) { //if number or 'none'
+    
+    if((!NaNchecker && !nullChecker) || noneChecker1 || noneChecker2) { //if number or 'none'
         /*
          * sensorXType lookup: 
          * -1 = not used
@@ -185,11 +187,9 @@ function getSensorInfo() {
         document.getElementById("sensorLbl").innerHTML = "Sensor values assigned. (distance = ultra, touch = touch, -1 = not used) Sensor1 is of type " + sensor1Type + " with ID#: " + sensor1ID + " Sensor2 is of Type " + sensor2Type + " with ID#: " + sensor2ID 
         
     } //end outer if
-    else {
-        document.getElementById("sensorLbl").innerHTML = "Please input an integer for the sensor ID #s or put 'none' if not using";
+    else {document.getElementById("sensorLbl").innerHTML = "Please input an integer for the sensor ID #s or put 'none' if not using";}
         
-        
-    }
+
 }
 
 function startServer(){

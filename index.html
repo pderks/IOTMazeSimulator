@@ -83,6 +83,7 @@
                 <div>
                 <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 <canvas width="300" height="300" id="indicatorCanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <a class="btn btn-default" onclick="reset()">Reset Simulator</a>
                 </div>
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
                 
@@ -133,6 +134,45 @@
                     var sensor2Type = -1;
                     var sensor2ID = -1;
                     
+                    
+                    
+                    //**********************************************************
+                    // Reset/Init
+                    //**********************************************************
+                    function reset() {
+                        currRectX = 0;
+                        currRectY = 0;
+                        mazeWidth = 1450;
+                        mazeHeight = 640;
+                        rHeight = 80;
+                        rWidth = 50;
+                        rTemp = 0;
+                        mazeImg = new Image();
+                        mazeImg.src = "mazebold.jpg"
+
+                        //Indicator Dimensions
+                        indWindowWidth = 300;
+                        indWindowHeight = 300;
+                        indImg = new Image();
+                        indImg.src = "boldicator.jpg";
+
+                        leftWheelPower = 0;
+                        isLeftTurn = false;
+                        isRightTurn = false;
+                        rightWheelPower = 0;
+                        heading = 0;
+                        accuLeft = 0;
+                        accuRight = 0;
+                        newX = 0;
+                        newY = 0;
+                        sensor1Type = -1;
+                        sensor1ID = -1;
+                        sensor2Type = -1;
+                        sensor2ID = -1;
+                        
+                        drawMazeAndRectangle(1290, 343);
+                        drawIndicatorCanvas(300,300);
+                    }
                     
                     
                     //**********************************************************
@@ -383,8 +423,8 @@
                         return canMove;
                     }
                     
-                    function moveRect(e) {
-                        /*var movingAllowed;
+                    /*function moveRect(e) {
+                        var movingAllowed;
 
                         e = e || window.event;
                         switch (e.keyCode) {
@@ -406,7 +446,7 @@
                             case 68: // D key
                                 moveRight();
                                 break; 
-                        }*/
+                        }
                         movingAllowed = canMoveTo(newX, newY);
                         
                         if (movingAllowed === 1) {// 1 means 'the rectangle can move'
@@ -424,7 +464,7 @@
                             context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
                             window.removeEventListener("keydown", moveRect, true);
                         }
-                    }
+                    } */
                     //**********************************************************
                     // End of Movement Functions
                     //**********************************************************
@@ -438,7 +478,8 @@
                     function checkFilesUploaded(){
                         var x = document.getElementById("myFile");
                         var txt = "";
-                        if (isNaN(document.getElementById("XNewMazeCoordinate").value) || isNaN(document.getElementById("YNewMazeCoordinate").value)) {
+                        if (isNaN(document.getElementById("XNewMazeCoordinate").value) || isNaN(document.getElementById("YNewMazeCoordinate").value) || 
+                                document.getElementById("YNewMazeCoordinate").value == '' || document.getElementById("XNewMazeCoordinate").value == '') {
                             txt = "One of the two coordinates designated are not numbers."
                         }
                         else if ('files' in x) {
@@ -483,7 +524,7 @@
                     
                     drawMazeAndRectangle(1290, 343);
                     drawIndicatorCanvas(300,300);
-                    window.addEventListener("keydown", moveRect, true);
+                    //window.addEventListener("keydown", moveRect, true);
                     
                 </script>
                 <script src="js/IOTFunctions.js"> </script>
@@ -491,11 +532,32 @@
                 <!-- END MAZE CODE -->               
             </div>
             <div>
+                <h2>Details / Readme: </h2>
+                <h4>This has either been opened from VIPLE's "Start web simulator" or has been opened manually through your web browser's URL.
+                In order to "Run" this simulator, you must connect to VIPLE or JSON transmitting program, starting a new "Web simulator" on VIPLE
+                will not begin the execution of the robot's movement and measurements. Please follow the instructions carefully below.</h4>
+            </div>
+            
+            <div>
+                <h2>Instructions: </h2>
+                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has 8124 as its TCP port. </h4>
+                <h4>2.) Run your ASU VIPLE Program (green triangle button) and ensure that the window "RunWindow" is displaying that says "Running Program". Keep the RunWindow open during execution. </h4>
+                <h4>3.) Note: If you are not using any sensors, you do not need to fill in the fields or click the button "Add/Update Sensors".</h4>
+                <h4>3a.) If you are using sensors, input sensor ID, select what type of sensor it is, and where it located on the robot in the "Input Sensor Value" section. </h4> 
+                <h4>3b.) If you are not using that sensor, enter "none" as the ID, then click the button "Add/Update Sensors". </h4>
+                <h4>4.) Ensure that your program is running in VIPLE </h4>
+                <h4>5.) To connect to VIPLE, In the "Connect To VIPLE" section: enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
+                <h4>6.) Click the Connect to ASU VIPLE (Websockets) button.</h4>
+                <h4>Note: that motor "3" will be the universal left, motor "5" will be universal right motor for this simulator.</h4>
+                <h4>Advanced and experimental: You can also upload your own maze (walls must be black Red/Green/Blue = 0/0/0), do not use if you don't know what you're doing.</h4>
+            </div>
+            <div>
                 <h2>Input Sensor Values</h2>
+                <h4>*Optional section if you are not using sensors.*</h4>
                 <h4>Enter 'none' if you don't plan on using that sensor.</h4>
-                <h4><strong>BE SURE TO CLICK THE 'Add/Update Sensors' BUTTON TO ENSURE THAT THE VALUES OF THE SENSORS ARE SET</strong></h4>
+                <h4>BE SURE TO CLICK THE 'Add/Update Sensors' BUTTON TO ENSURE THAT THE VALUES OF THE SENSORS ARE SET</h4>
                 <div class="panel panel-default">
-                    <input type="text" id="sensor1Txt" value="ID of Sensor1">
+                    <input type="text" id="sensor1Txt" placeholder="ID of Sensor1">
                     <select id="sensor1Select">
                         <option>Ultrasonic Sensor</option>
                         <option>Touch Sensor</option>
@@ -508,7 +570,7 @@
                     </select>
                 </div>
                 <div>
-                    <input type="text" id="sensor2Txt" value="ID of Sensor2">
+                    <input type="text" id="sensor2Txt" placeholder="ID of Sensor2">
                     <select id="sensor2Select">
                         <option>Ultrasonic Sensor</option>
                         <option>Touch Sensor</option>
@@ -533,21 +595,13 @@
                     <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
-            <div>
-                <h2>Instructions on using this on the same computer:</h2>
-                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has <strong>8124</strong> as its TCP port. </h4>
-                <h4>2.) Run ASU VIPLE Program</h4>
-                <h4>3.) Enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
-                <h4>4.) Click the <strong>Connect to ASU VIPLE (Websockets)</strong> button.</h4>
-                <h4>5.) Note that motor "3" will be left, motor "5" will be right.</h4>
-            </div>
             
             <div>
                 <h2>Upload Image for New Maze</h2>
                 <p>
                     <input type="file" id="myFile">
-                    <input type="text" id="XNewMazeCoordinate" value="Desired starting X Coordinate">
-                    <input type="text" id="YNewMazeCoordinate" value="Desired starting Y Coordinate">
+                    <input type="text" id="XNewMazeCoordinate" placeholder="Desired starting X Coordinate">
+                    <input type="text" id="YNewMazeCoordinate" placeholder="Desired starting Y Coordinate">
                 </p>
                 <p>
                     <input type="text" id="upCanvHeight" value="Height of uploaded image (pixels)">
