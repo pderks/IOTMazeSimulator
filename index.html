@@ -26,13 +26,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    <script type="text/javascript">
-        <!--
-        if (screen.width <= 699) {
-            document.location = "mobile.html";
-        }
-        //-->
-    </script>
         <script type="text/javascript">
         function zoom() {
             document.body.style.zoom = "75%" 
@@ -88,14 +81,14 @@
         <!-- Marketing Icons Section -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">
+                <h1 class="page-header" style="padding-left: 40px; padding-right: 40px;">
                     ASU IOT Maze Simulator
                 </h1>
                 
                 <!-- BEGIN MAZE CODE -->
                 <div>
-                <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
-                <canvas width="300" height="300" id="indicatorCanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <canvas width="1450" height="640" id="mazecanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                <canvas width="300" height="300" id="indicatorCanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 </div>
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
                 
@@ -503,7 +496,7 @@
                 
                 <!-- END MAZE CODE -->               
             </div>
-            <div>
+            <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Input Sensor Values</h2>
                 <h4>Enter 'none' if you don't plan on using that sensor.</h4>
                 <h4><strong>BE SURE TO CLICK THE 'Add/Update Sensors' BUTTON TO ENSURE THAT THE VALUES OF THE SENSORS ARE SET</strong></h4>
@@ -539,14 +532,14 @@
                 </div>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding-left: 40px; padding-right: 40px;">
                 <h2>Connect to VIPLE</h2>
                 <div class="panel panel-default">
                     <input type="text" id="ipTxt" value="localhost">
                     <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
-            <div>
+            <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Instructions on using this on the same computer:</h2>
                 <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has <strong>8124</strong> as its TCP port. </h4>
                 <h4>2.) Run ASU VIPLE Program</h4>
@@ -555,7 +548,7 @@
                 <h4>5.) Note that motor "3" will be left, motor "5" will be right.</h4>
             </div>
             
-            <div>
+            <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Upload Image for New Maze</h2>
                 <p>
                     <input type="file" id="myFile">
@@ -578,7 +571,7 @@
 
 
         <!-- Footer -->
-        <footer>
+        <footer style="padding-left: 40px; padding-right: 40px;">
             <div class="row">
                 <div class="col-lg-12">
                     <p id="testing"> </p>
@@ -603,7 +596,6 @@
         interval: 5000 //changes the speed
     })
     </script>
-
 </body>
 
     
