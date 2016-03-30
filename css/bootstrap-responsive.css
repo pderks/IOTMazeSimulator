@@ -9,9 +9,12 @@ x/*!
  */
 
 .clearfix {
-  *zoom: 1;
+  *zoom: .5;
 }
 
+.zoom {
+    zoom: 50%;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;

@@ -91,3 +91,11 @@ footer {
         height: 70%;
     }
 }
+
+@media screen and (max-width: 1020px) {
+ header{
+    display:none;
+    text-align: center;
+  }
+ 
+}
