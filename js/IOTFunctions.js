@@ -194,8 +194,28 @@ function getSensorInfo() {
 
 function startServer(){
     alert("Starting Server");
+    var path;
+    var hosts = ['localhost', '127.0.0.1'];
     //connect to VIPLE
-    connection = new WebSocket("ws://" + document.getElementById("ipTxt").value + ":8124");
+    path = 'ws://' + document.getElementById('ipTxt').value + ':8124';
+    
+    if(document.getElementById('ipTxt').value == 'localhost') {
+        for (var i in hosts) {
+            path = 'ws://'+hosts[i]+':8124';
+            console.log( '===> Tested path :: ', path );
+            try {
+                connection = new WebSocket( path );
+                break;
+            }
+            catch ( e ) {
+                // !!! Never shown !!!
+                console.error( '===> WebSocket creation error :: ', e );
+            }
+        }
+    }
+    
+    else { connection = new WebSocket(path);}
+    
     
     connection.onopen = function(){
         document.getElementById("testing").innerHTML = 40;

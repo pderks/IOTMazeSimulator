@@ -407,7 +407,7 @@
                         var canMove = 1; // 1 means: the rectangle can move
                         if (destX >= 0 && destX <= mazeWidth - rWidth && destY >= 0 && destY <= mazeHeight - rHeight) {
                             for (var i = 0; i < 4 * rHeight * rWidth; i += 4) {
-                                if (data[i] != 255 && data[i + 1] != 255 && data[i + 2] != 255) { // black
+                                if (data[i] <= 45 && data[i + 1] <= 45 && data[i + 2] <= 45) { // black
                                     canMove = 0; // 0 means: the rectangle can't move
                                     break;
                                 } 
