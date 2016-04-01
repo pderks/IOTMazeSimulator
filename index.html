@@ -138,7 +138,7 @@
                     var sensor1ID = -1;
                     var sensor2Type = -1;
                     var sensor2ID = -1;
-                    
+                    var debugMode = false;
                     
                     
                     //**********************************************************
@@ -300,53 +300,76 @@
                         while(findDistance != 0)
                         {
                             findDistance = canMoveTo(currRectX, countUp);
-                            countUp--;
-                        }
+                            countUp = countUp - 10;
+                        } //find wall
+                        while(findDistance == 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countUp);
+                            countUp++;
+                        } //move probe 1 px away from wall
                         
-                        upDist = currRectY - countUp - 3;
+                        upDist = currRectY - countUp - 1;
                         findDistance = 9001;
                         
                         //down 
                         while(findDistance != 0)
                         {
                             findDistance = canMoveTo(currRectX, countDown);
-                            countDown++;
+                            countDown = countDown + 10;
+                        }
+                        while(findDistance == 0)
+                        {
+                            findDistance = canMoveTo(currRectX, countDown);
+                            countDown--;
                         }
                         findDistance = 9001; 
-                        downDist = countDown - currRectY - 3;
+                        downDist = countDown - currRectY - 1;
                         
                         //left
                         while(findDistance != 0)
                         {
                             findDistance = canMoveTo(countLeft, currRectY);
-                            countLeft--;
+                            countLeft = countLeft - 10;
+                        }
+                        while(findDistance == 0)
+                        {
+                            findDistance = canMoveTo(countLeft, currRectY);
+                            countLeft++;
                         }
                         findDistance = 9001;
-                        leftDist = currRectX - countLeft - 3;
+                        leftDist = currRectX - countLeft - 1;
                         
                         //right
                         while(findDistance != 0)
                         {
                             findDistance = canMoveTo(countRight, currRectY);
-                            countRight++;
+                            countRight = countRight + 10;
+                        }
+                        while(findDistance == 0)
+                        {
+                            findDistance = canMoveTo(countRight, currRectY);
+                            countRight--;
                         }
 
-                        rightDist = countRight - currRectX - 3;
-                        document.getElementById("testing").innerHTML = 'Current distance readings: Up: ' + upDist + ' Down: ' + downDist + ' left: ' + leftDist + ' right ' + rightDist;
+                        rightDist = countRight - currRectX - 1;
+                        if(debugMode) {
+                            document.getElementById("testing").innerHTML = 'Current distance readings: Up: ' + upDist + ' Down: ' + downDist + ' left: ' + leftDist + ' right ' + rightDist;
+                        }
+                        
                         
                     }
                     function moveUp(){
                         newX = currRectX;
-                        newY = currRectY - 10;
+                        newY = currRectY - 5;
                         
                         
-                        if(upDist >= 10){
+                        if(upDist >= 5){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                             
-                        } else if(upDist < 10 && upDist > 0) {
-                            drawRectangle(newX, newY - upDist + 10, "#0000FF");
+                        } else if(upDist < 5 && upDist > 0) {
+                            drawRectangle(newX, newY - upDist + 5, "#0000FF");
                             currRectX = newX;
                             currRectY = newY - upDist + 10;
                             
@@ -357,45 +380,45 @@
                     
                     function moveDown(){
                         newX = currRectX;
-                        newY = currRectY + 10;
+                        newY = currRectY + 5;
                         
-                        if(downDist >= 10){
+                        if(downDist >= 5){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                        } else if(downDist < 10 && downDist > 0) {
-                            drawRectangle(newX, newY + downDist - 10, "#0000FF");
+                        } else if(downDist < 5 && downDist > 0) {
+                            drawRectangle(newX, newY + downDist - 5, "#0000FF");
                             currRectX = newX;
-                            currRectY = newY + downDist - 10;
+                            currRectY = newY + downDist - 5;
                         }
                         measureDist();
                     }
                     
                     function moveLeft(){
-                        newX = currRectX - 10;
+                        newX = currRectX - 5;
                         newY = currRectY;
-                        if(leftDist >= 10){
+                        if(leftDist >= 5){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
-                        } else if(leftDist < 10 && leftDist > 0) {
-                            drawRectangle(newX - leftDist + 10, newY, "#0000FF");
-                            currRectX = newX - leftDist + 10;
+                        } else if(leftDist < 5 && leftDist > 0) {
+                            drawRectangle(newX - leftDist + 5, newY, "#0000FF");
+                            currRectX = newX - leftDist + 5;
                             currRectY = newY;
                         }
                         measureDist();
                     }
                     
                     function moveRight(){
-                        newX = currRectX + 10;
+                        newX = currRectX + 5;
                         newY = currRectY;
-                        if(rightDist >= 10){
+                        if(rightDist >= 5){
                             drawRectangle(newX, newY, "#0000FF");
                             currRectX = newX;
                             currRectY = newY;
                         } else {
-                            drawRectangle(newX + rightDist - 10, newY, "#0000FF");
-                            currRectX = newX + rightDist - 10;
+                            drawRectangle(newX + rightDist - 5, newY, "#0000FF");
+                            currRectX = newX + rightDist - 5;
                             currRectY = newY;
                         }
                         measureDist();
@@ -527,26 +550,7 @@
                 
                 <!-- END MAZE CODE -->               
             </div>
-            <div style="padding-left: 40px; padding-right: 40px;">
-                <h2>Details / Readme: </h2>
-                <h4>This has either been opened from VIPLE's "Start web simulator" or has been opened manually through your web browser's URL.
-                In order to "Run" this simulator, you must connect to VIPLE or JSON transmitting program, starting a new "Web simulator" on VIPLE
-                will not begin the execution of the robot's movement and measurements. Please follow the instructions carefully below.</h4>
-            </div>
             
-            <div style="padding-left: 40px; padding-right: 40px;">
-                <h2>Instructions: </h2>
-                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has 8124 as its TCP port. </h4>
-                <h4>2.) Run your ASU VIPLE Program (green triangle button) and ensure that the window "RunWindow" is displaying that says "Running Program". Keep the RunWindow open during execution. </h4>
-                <h4>3.) Note: If you are not using any sensors, you do not need to fill in the fields or click the button "Add/Update Sensors".</h4>
-                <h4>3a.) If you are using sensors, input sensor ID, select what type of sensor it is, and where it located on the robot in the "Input Sensor Value" section. </h4> 
-                <h4>3b.) If you are not using that sensor, enter "none" as the ID, then click the button "Add/Update Sensors". </h4>
-                <h4>4.) Ensure that your program is running in VIPLE </h4>
-                <h4>5.) To connect to VIPLE, In the "Connect To VIPLE" section: enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
-                <h4>6.) Click the Connect to ASU VIPLE (Websockets) button.</h4>
-                <h4>Note: that motor "3" will be the universal left, motor "5" will be universal right motor for this simulator.</h4>
-                <h4>Advanced and experimental: You can also upload your own maze (walls must be black Red/Green/Blue = 0/0/0), do not use if you don't know what you're doing.</h4>
-            </div>
             <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Input Sensor Values</h2>
                 <h4>*Optional section if you are not using sensors.*</h4>
@@ -591,14 +595,6 @@
                     <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
                 </div>
             </div>
-            <div style="padding-left: 40px; padding-right: 40px;">
-                <h2>Instructions on using this on the same computer:</h2>
-                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has <strong>8124</strong> as its TCP port. </h4>
-                <h4>2.) Run ASU VIPLE Program</h4>
-                <h4>3.) Enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
-                <h4>4.) Click the <strong>Connect to ASU VIPLE (Websockets)</strong> button.</h4>
-                <h4>5.) Note that motor "3" will be left, motor "5" will be right.</h4>
-            </div>
             
             <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Upload Image for New Maze</h2>
@@ -614,6 +610,27 @@
                 <a class="btn btn-default" onclick="checkFilesUploaded()">Select image as new maze.</a>
                 <p id ="myFileNames" ></p>
             </div>  
+            
+            <div style="padding-left: 40px; padding-right: 40px;">
+                <h2>Details / Readme: </h2>
+                <h4>This has either been opened from VIPLE's "Start web simulator" or has been opened manually through your web browser's URL.
+                In order to "Run" this simulator, you must connect to VIPLE or JSON transmitting program, starting a new "Web simulator" on VIPLE
+                will not begin the execution of the robot's movement and measurements. Please follow the instructions carefully below.</h4>
+            </div>
+            
+            <div style="padding-left: 40px; padding-right: 40px;">
+                <h2>Instructions: </h2>
+                <h4>1.) Open ASU VIPLE and ensure that your "Robot" service block has 8124 as its TCP port. </h4>
+                <h4>2.) Run your ASU VIPLE Program (green triangle button) and ensure that the window "RunWindow" is displaying that says "Running Program". Keep the RunWindow open during execution. </h4>
+                <h4>3.) Note: If you are not using any sensors, you do not need to fill in the fields or click the button "Add/Update Sensors".</h4>
+                <h4>3a.) If you are using sensors, input sensor ID, select what type of sensor it is, and where it located on the robot in the "Input Sensor Value" section. </h4> 
+                <h4>3b.) If you are not using that sensor, enter "none" as the ID, then click the button "Add/Update Sensors". </h4>
+                <h4>4.) Ensure that your program is running in VIPLE </h4>
+                <h4>5.) To connect to VIPLE, In the "Connect To VIPLE" section: enter "localhost" for same computer, or your given IP address for another computer in the field above.</h4>
+                <h4>6.) Click the Connect to ASU VIPLE (Websockets) button.</h4>
+                <h4>Note: that motor "3" will be the universal left, motor "5" will be universal right motor for this simulator.</h4>
+                <h4>Advanced and experimental: You can also upload your own maze (walls must be black Red/Green/Blue = 0/0/0), do not use if you don't know what you're doing.</h4>
+            </div>
       
 
          

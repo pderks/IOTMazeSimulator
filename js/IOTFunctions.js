@@ -72,14 +72,19 @@ function WSsendSensorInfo() {
     }
 
     connection.send(messageToSend);
-    document.getElementById("testing3").innerHTML = messageToSend;
+    if(debugMode) {
+        document.getElementById("testing3").innerHTML = messageToSend;
+    }
+    
     //test command below in case anything breaks
     //connection.send("{\"sensors\": [{\"name\":\"touch\", \"id\":0, \"value\":0}, {\"name\":\"distance\", \"id\":3, \"value\":12.8}]}");
 }
 
 function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Robot
     //document.getElementById("testing").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
-    document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    if(debugMode) {
+        document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
+    }
     if(leftWheelPower == 0 && rightWheelPower == 0) {
         accuLeft = 0; 
         accuRight = 0;}
@@ -142,7 +147,7 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         }
     }
     WSsendSensorInfo();
-    var t = setTimeout(periodicMovement, 250);
+    var t = setTimeout(periodicMovement, 40);
 }
 
 
@@ -198,8 +203,11 @@ function startServer(){
     var hosts = ['localhost', '127.0.0.1'];
     //connect to VIPLE
     path = 'ws://' + document.getElementById('ipTxt').value + ':8124';
+    if(document.getElementById('ipTxt').value == 'localdebug') {
+        debugMode = true;
+    }
     
-    if(document.getElementById('ipTxt').value == 'localhost') {
+    if(document.getElementById('ipTxt').value == 'localhost' || document.getElementById('ipTxt').value == 'localdebug') {
         for (var i in hosts) {
             path = 'ws://'+hosts[i]+':8124';
             console.log( '===> Tested path :: ', path );
@@ -218,7 +226,9 @@ function startServer(){
     
     
     connection.onopen = function(){
-        document.getElementById("testing").innerHTML = 40;
+        if(debugMode) {
+            document.getElementById("testing").innerHTML = 40;
+        }
         periodicMovement();
     }
     
