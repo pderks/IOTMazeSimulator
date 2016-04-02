@@ -89,7 +89,9 @@
                 <div>
                 <canvas width="1450" height="640" id="mazecanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 <canvas width="300" height="300" id="indicatorCanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                 <a class="btn btn-default" onclick="reset()">Reset Simulator</a>
                 </div>
+                
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
                 
                 <!-- IOT FUNCTIONS -->
@@ -240,6 +242,7 @@
                     }
                     
                     function drawRectangle(x, y, style) {
+                        makeWhite(currRectX, currRectY, rWidth, rHeight);
                         makeWhite(currRectX, currRectY, rWidth, rHeight);
                         currRectX = x;
                         currRectY = y;
