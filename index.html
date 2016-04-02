@@ -86,8 +86,10 @@
                 </h1>
                 
                 <!-- BEGIN MAZE CODE -->
+                <div style="padding-left: 40px; padding-right: 40px;">
+                <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
+                </div>
                 <div>
-                <canvas width="1450" height="640" id="mazecanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 <canvas width="300" height="300" id="indicatorCanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                  <a class="btn btn-default" onclick="reset()">Reset Simulator</a>
                 </div>
@@ -242,7 +244,6 @@
                     }
                     
                     function drawRectangle(x, y, style) {
-                        makeWhite(currRectX, currRectY, rWidth, rHeight);
                         makeWhite(currRectX, currRectY, rWidth, rHeight);
                         currRectX = x;
                         currRectY = y;
