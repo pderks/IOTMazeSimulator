@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-
         <group>
-
-            <file>file:/C:/Users/Adam%20Lew/Documents/NetBeansProjects/IOTMazeSimulator/js/IOTFunctions.js</file>
-
-            <file>file:/C:/Users/Adam%20Lew/Documents/NetBeansProjects/IOTMazeSimulator/index.html</file>
-
-            <file>file:/C:/Users/Adam%20Lew/Documents/NetBeansProjects/IOTMazeSimulator/maze.gif</file>
-
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/css/modern-business.css</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/css/bootstrap-responsive.css</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/css/bootstrap.css</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/js/contact_me.js</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/index.html</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/js/IOTFunctions.js</file>
+            <file>file:/Users/ptueller/Git/IOTMazeSimulator/js/bootstrap.js</file>
         </group>
-
     </open-files>
-
 </project-private>
-
->>>>>>> master
