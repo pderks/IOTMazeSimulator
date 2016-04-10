@@ -539,6 +539,45 @@
                         document.getElementById("myFileNames").innerHTML = txt;
                     }
                     
+                    function changeTemplate(){
+                        var baseCheck = document.getElementById("rbase").checked;
+                        var r1Check = document.getElementById("r1").checked;
+                        var r2Check = document.getElementById("r2").checked;
+                        var r3Check = document.getElementById("r3").checked;
+                        var r4Check = document.getElementById("r4").checked;
+                        document.getElementById("sampledownloadTxt").innerHTML = "val" + baseCheck + r1Check + r2Check + r3Check + r4Check;
+                        if(!baseCheck && !r1Check && !r2Check && !r3Check && !r4Check) {
+                            document.getElementById("sampledownloadTxt").innerHTML = "Please select a maze then try again.";
+                        } else {
+                            if(baseCheck){
+                                mazeImg.src = "mazebold.jpg";
+                                drawMazeAndRectangle(1290, 343);
+                            }
+                            else if(r1Check) {
+                                mazeImg.src = "SampMaze1.jpg";
+                                drawMazeAndRectangle(70, 471);
+                            }
+                            else if(r2Check) {
+                                mazeImg.src = "SampMaze2.jpg";
+                                drawMazeAndRectangle(1238, 338);
+                            }
+                            else if(r3Check) {
+                                mazeImg.src = "SampMaze3.jpg";
+                                drawMazeAndRectangle(1259, 369);
+                            }
+                            else if(r4Check) {
+                                mazeImg.src = "SampMaze4.jpg";
+                                drawMazeAndRectangle(74, 459);
+                            }
+                            document.getElementById("sampledownloadTxt").innerHTML = "The maze has been changed.";
+                        }
+                    }
+                    
+                    function downloadFile(){
+                        window.open('SampleMazes.zip');
+                    }
+                    
+                    
                     
                     //**********************************************************
                     // End of File Upload
@@ -600,7 +639,24 @@
                 </div>
             </div>
             
-            <div id="upload" style="padding-left: 40px; padding-right: 40px;">
+            <div style="padding-left: 40px; padding-right: 40px;">
+                <h2>Select/Download Sample Maze</h2>
+                <h4>Click on any image to download it, use the radio buttons to select a maze then press the "Select image as new maze" button in this section below.</h4>
+                <form>
+                    <input type ="radio" name ="mazeselect" id="rbase" > <img border="0" src="mazebold.jpg" width="128" height="290"><br>
+                    <input type ="radio" name ="mazeselect" id="r1" > <img border="0" src="SampMaze1.jpg" width="128" height="290"><br>
+                    <input type ="radio" name ="mazeselect" id="r2" > <img border="0" src="SampMaze2.jpg" width="128" height="290"><br>
+                    <input type ="radio" name ="mazeselect" id="r3" ><img border="0" src="SampMaze3.jpg" width="128" height="290"><br>
+                    <input type ="radio" name ="mazeselect" id="r4" ><img border="0" src="SampMaze4.jpg" width="128" height="290"><br>
+                </form>
+                
+                <a class="btn btn-default" onclick="changeTemplate()">Select image as new maze.</a>
+                <a class="btn btn-default" onclick="downloadFile()">Download all sample maze templates</a>
+                <p id ="sampledownloadTxt" ></p>
+            </div>  
+            
+            
+            <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Upload Image for New Maze</h2>
                 <p>
                     <input type="file" id="myFile">
