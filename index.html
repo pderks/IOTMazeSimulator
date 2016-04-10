@@ -244,19 +244,61 @@
                     }
                     
                     function drawRectangle(x, y, style) {
+                        
                         makeWhite(currRectX, currRectY, rWidth, rHeight);
                         currRectX = x;
                         currRectY = y;
                         context.beginPath();
                         context.rect(x, y, rWidth, rHeight);
                         context.closePath();
+                        
+                        var greenx1 = x;
+                        var greenx2 = x;
+                        var redx1 = x;
+                        var redx2 = x;
+                        var greeny1 = y;
+                        var greeny2 = y;
+                        var redy1 = y;
+                        var redy2 = y;
+                        if(heading == 0){
+                            greenx2 = x + 35;
+                            redx2 = x + 35;
+                            redy1 = y+65;
+                            redy2 = y+65;
+                        } else if(heading == 1) {//facing left
+                            redx1 = x + 65;
+                            redx2 = x + 65;
+                            greeny2 = y+35;
+                            redy2 = y+35;
+                        }
+                        else if(heading == 2) {//facing left
+                            greenx2 = x + 35;
+                            redx2 = x + 35;
+                            greeny1 = y+65;
+                            greeny2 = y+65;
+                        }
+                        else if(heading == 3) {//facing left
+                            greenx1 = x + 65;
+                            greenx2 = x + 65;
+                            greeny2 = y+35;
+                            redy2 = y+35;
+                        }
 
                         //var grd=context.rect.createRadialGradient(75,50,5,90,60,100);
                         //grd.addColorStop(0,"red");
                         //grd.addColorStop(1,"black");
-
+                        context.rect(x, y, rWidth, rHeight);
+                        
                         context.fillStyle = "#0000FF";
                         context.fillRect(x, y, rWidth, rHeight);
+                        
+                        context.fillStyle = "#00FF00";
+                        context.fillRect(greenx1, greeny1, 15, 15);
+                        context.fillRect(greenx2, greeny2, 15, 15);
+                        
+                        context.fillStyle = "#FF0000";
+                        context.fillRect(redx1, redy1, 15, 15);
+                        context.fillRect(redx2, redy2, 15, 15);
                     }
                     
                     function makeWhite(x, y, w, h) {
@@ -270,12 +312,13 @@
                     function swapDim(){
                         makeWhite(currRectX, currRectY, rWidth, rHeight);
                         if(heading == 0 || heading == 2) {
-                            currRectX = currRectX - 15;
-                            currRectY = currRectY + 15;
-                        }
-                        else {
                             currRectX = currRectX + 15;
                             currRectY = currRectY - 15;
+                        }
+                        else {
+                            currRectX = currRectX - 15;
+                            currRectY = currRectY + 15;
+                            
                         }
                         rTemp = rHeight;
                         rHeight = rWidth;
@@ -555,19 +598,19 @@
                             }
                             else if(r1Check) {
                                 mazeImg.src = "SampMaze1.jpg";
-                                drawMazeAndRectangle(70, 471);
+                                drawMazeAndRectangle(105, 471);
                             }
                             else if(r2Check) {
                                 mazeImg.src = "SampMaze2.jpg";
-                                drawMazeAndRectangle(1238, 338);
+                                drawMazeAndRectangle(1288, 338);
                             }
                             else if(r3Check) {
                                 mazeImg.src = "SampMaze3.jpg";
-                                drawMazeAndRectangle(1259, 369);
+                                drawMazeAndRectangle(1305, 369);
                             }
                             else if(r4Check) {
                                 mazeImg.src = "SampMaze4.jpg";
-                                drawMazeAndRectangle(74, 459);
+                                drawMazeAndRectangle(110, 459);
                             }
                             document.getElementById("sampledownloadTxt").innerHTML = "The maze has been changed.";
                         }
@@ -586,6 +629,8 @@
                     
                     drawMazeAndRectangle(1290, 343);
                     drawIndicatorCanvas(300,300);
+                    
+                    
                     //window.addEventListener("keydown", moveRect, true);
                     
                 </script>
@@ -641,7 +686,7 @@
             
             <div style="padding-left: 40px; padding-right: 40px;">
                 <h2>Select/Download Sample Maze</h2>
-                <h4>Click on any image to download it, use the radio buttons to select a maze then press the "Select image as new maze" button in this section below.</h4>
+                <h4>Use the radio buttons to select a maze then press the "Select image as new maze" button in this section below.</h4>
                 <form>
                     <input type ="radio" name ="mazeselect" id="rbase" > <img border="0" src="mazebold.jpg" width="128" height="290"><br>
                     <input type ="radio" name ="mazeselect" id="r1" > <img border="0" src="SampMaze1.jpg" width="128" height="290"><br>
