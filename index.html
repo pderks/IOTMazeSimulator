@@ -587,9 +587,7 @@
                         var r1Check = document.getElementById("r1").checked;
                         var r2Check = document.getElementById("r2").checked;
                         var r3Check = document.getElementById("r3").checked;
-                        var r4Check = document.getElementById("r4").checked;
-                        document.getElementById("sampledownloadTxt").innerHTML = "val" + baseCheck + r1Check + r2Check + r3Check + r4Check;
-                        if(!baseCheck && !r1Check && !r2Check && !r3Check && !r4Check) {
+                        if(!baseCheck && !r1Check && !r2Check && !r3Check) {
                             document.getElementById("sampledownloadTxt").innerHTML = "Please select a maze then try again.";
                         } else {
                             if(baseCheck){
@@ -608,16 +606,12 @@
                                 mazeImg.src = "SampMaze3.jpg";
                                 drawMazeAndRectangle(1305, 369);
                             }
-                            else if(r4Check) {
-                                mazeImg.src = "SampMaze4.jpg";
-                                drawMazeAndRectangle(110, 459);
-                            }
                             document.getElementById("sampledownloadTxt").innerHTML = "The maze has been changed.";
                         }
                     }
                     
                     function downloadFile(){
-                        window.open('SampleMazes.zip');
+                        window.open('SampleMazePack.zip');
                     }
                     
                     
@@ -692,7 +686,6 @@
                     <input type ="radio" name ="mazeselect" id="r1" > <img border="0" src="SampMaze1.jpg" width="128" height="290"><br>
                     <input type ="radio" name ="mazeselect" id="r2" > <img border="0" src="SampMaze2.jpg" width="128" height="290"><br>
                     <input type ="radio" name ="mazeselect" id="r3" ><img border="0" src="SampMaze3.jpg" width="128" height="290"><br>
-                    <input type ="radio" name ="mazeselect" id="r4" ><img border="0" src="SampMaze4.jpg" width="128" height="290"><br>
                 </form>
                 
                 <a class="btn btn-default" onclick="changeTemplate()">Select image as new maze.</a>
