@@ -36,44 +36,6 @@
 
 <body onload="zoom()">
     <!-- Header Carousel -->
-    <header id="myCarousel" class="carousel slide" style="height: 400px;">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <div class="fill" style="background-image:url('https://www.adafruit.com/images/1200x900/2112-00.jpg');"></div>
-                <div class="carousel-caption">
-                    
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('http://techliveinfo.com/wp-content/uploads/2014/06/intel-look-inside.jpg');"></div>
-                <div class="carousel-caption">
-                    
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('http://www.public.asu.edu/~sskamat/img/ASU%20Logo.jpg');"></div>
-                <div class="carousel-caption">
-                    
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-    </header>
 
     <!-- Page Content -->
     <div class="container">
@@ -90,8 +52,7 @@
                 <canvas width="1450" height="640" id="mazecanvas">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
                 </div>
                 <div>
-                <canvas width="300" height="300" id="indicatorCanvas" style="padding-left: 40px; padding-right: 40px;">Can't load the simulator, because your browser doesn't support HTML5.</canvas>
-                 <a class="btn btn-default" onclick="reset()">Reset Simulator</a>
+                 <a class="btn btn-default" onclick="reset()" style="width: 300px; margin-left:43%;">Reset Simulator</a>
                 </div>
                 
                 <noscript>JavaScript is not enabled. To access simulator, you should enable it.</noscript>
@@ -117,6 +78,8 @@
                     var mazeImg = new Image();
                     mazeImg.src = "mazebold.jpg"
                     
+                    
+                    /*
                     //Indicator Dimensions
                     var indCanv = document.getElementById("indicatorCanvas");
                     var indCont = indCanv.getContext("2d");
@@ -124,7 +87,7 @@
                     var indWindowHeight = 300;
                     var indImg = new Image();
                     indImg.src = "boldicator.jpg";
-                    
+                    */
                     var leftWheelPower = 0;
                     var isLeftTurn = false;
                     var isRightTurn = false;
@@ -159,12 +122,12 @@
                         mazeImg = new Image();
                         mazeImg.src = "mazebold.jpg"
 
-                        //Indicator Dimensions
+                        /*//Indicator Dimensions
                         indWindowWidth = 300;
                         indWindowHeight = 300;
                         indImg = new Image();
                         indImg.src = "boldicator.jpg";
-
+                        */
                         leftWheelPower = 0;
                         isLeftTurn = false;
                         isRightTurn = false;
@@ -175,7 +138,7 @@
                         newX = 1290;
                         newY = 343;                        
                         drawMazeAndRectangle(1290, 343);
-                        drawIndicatorCanvas(300,300);
+                        //drawIndicatorCanvas(300,300);
                     }
                     
                     
@@ -197,6 +160,7 @@
                         };
                         ;
                     }
+                    /*
                     function drawIndicatorCanvas() {
                         makeWhite(0, 0, indCanv.width, indCanv.height);
                         indImg.onload = function () {
@@ -242,6 +206,7 @@
                         indCont.drawImage(indImg,-indImg.width/2,-indImg.width/2);
                         indCont.restore();
                     }
+                    */
                     
                     function drawRectangle(x, y, style) {
                         
@@ -622,7 +587,7 @@
               
                     
                     drawMazeAndRectangle(1290, 343);
-                    drawIndicatorCanvas(300,300);
+                    //drawIndicatorCanvas(300,300);
                     
                     
                     //window.addEventListener("keydown", moveRect, true);

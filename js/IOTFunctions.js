@@ -92,14 +92,14 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     accuRight = accuRight + rightWheelPower;
     if((accuLeft - accuRight) >= 12.5) {
         if(heading == 0) {
-            rotateIndicatorRight();
+            //rotateIndicatorRight();
             heading = 3;
             swapDim();
             
         } else {
-            if(heading == 1) rotateIndicatorFront();
+            /*if(heading == 1) rotateIndicatorFront();
             if(heading == 2) rotateIndicatorLeft();
-            if(heading == 3) rotateIndicatorBack();
+            if(heading == 3) rotateIndicatorBack(); */
             heading--; 
             swapDim();
         }
@@ -107,15 +107,15 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         accuRight = 0;
     } else if((accuRight - accuLeft) >= 12.5) { //turning left
         if(heading == 3) {
-            rotateIndicatorFront();
+            //rotateIndicatorFront();
             heading = 0;
             swapDim();
         } //facing right
         else {
             
-            if(heading == 2) rotateIndicatorRight();
-            if(heading == 1) rotateIndicatorBack();
-            if(heading == 0) rotateIndicatorLeft();
+            //if(heading == 2) rotateIndicatorRight();
+            //if(heading == 1) rotateIndicatorBack();
+            //if(heading == 0) rotateIndicatorLeft();
             heading++;
             swapDim();
         };
