@@ -1,6 +1,16 @@
 
 var connection;
 
+function closeWSConnection(){
+    if(isConnectedWS){
+        connection.close();
+        isConnectedWS = false;
+        alert("Connection to VIPLE has been closed, please restart your VIPLE program and then reconnect.");
+    } else {
+        alert("You are not connected, no connection to close.");
+    }
+}
+
 function WSsendSensorInfo() {
     
     /*
@@ -11,7 +21,10 @@ function WSsendSensorInfo() {
      * Left = 2
      * Right = 3
      */
-    
+    if(connection.readyState != 1) {
+        alert("Connection to VIPLE has been severed, closing Websockets.");
+        closeWSConnection();
+    }
     //'{"sensors": [{"name":"touch", "id":0, "value":0}, {"name":"distance", "id":0, "value":12.8}]}'
     var messageToSend ='{"sensors": [' 
     var sensor1message = '{"name":' + sensor1Type + ', "id":' + sensor1ID +  ', "value":';
@@ -85,6 +98,10 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
     if(debugMode) {
         document.getElementById("testing2").innerHTML = 'Current Motor States: Left Motor = ' + leftWheelPower + ' Right Motor' + rightWheelPower;
     }
+    if(!isConnectedWS) {
+        alert("Stopping Movement")
+        return;
+    }
     if(leftWheelPower == 0 && rightWheelPower == 0) {
         accuLeft = 0; 
         accuRight = 0;}
@@ -139,7 +156,10 @@ function periodicMovement() { //every 250 milliseconds (.25 seconds) move the Ro
         }
     }
     WSsendSensorInfo();
-    var t = setTimeout(periodicMovement, 40);
+    if(isConnectedWS) {
+        var t = setTimeout(periodicMovement, 40);
+    }
+    
 }
 
 
@@ -190,7 +210,10 @@ function getSensorInfo() {
 }
 
 function startServer(){
-    alert("Starting Server");
+    if(isConnectedWS) {
+        alert("Already connected, connection request canceled.");
+        return;
+    }
     var path;
     var hosts = ['localhost', '127.0.0.1'];
     //connect to VIPLE
@@ -198,7 +221,6 @@ function startServer(){
     if(document.getElementById('ipTxt').value == 'localdebug') {
         debugMode = true;
     }
-    
     if(document.getElementById('ipTxt').value == 'localhost' || document.getElementById('ipTxt').value == 'localdebug') {
         for (var i in hosts) {
             path = 'ws://'+hosts[i]+':8124';
@@ -213,17 +235,18 @@ function startServer(){
             }
         }
     }
-    
     else { connection = new WebSocket(path);}
     
     
     connection.onopen = function(){
+        alert("Connected to VIPLE.");
         if(debugMode) {
             document.getElementById("testing").innerHTML = 40;
         }
+        isStarted = true;
+        isConnectedWS = true;
         periodicMovement();
     }
-    
     if ("WebSocket" in window)
     {
         //alert("WebSocket is supported by your Browser!");
@@ -237,15 +260,8 @@ function startServer(){
         isLeftTurn = Boolean(jsobject.servos[0].isTurn);
         isRightTurn = Boolean(jsobject.servos[1].isTurn);
         
-        
-        var stringfy = received.toString();
-        //alert(stringfy);
-        // stringfy = "up down left right";
-        //if(stringfy.indexOf("{\"servos\":[{\"isTurn\":false,\"servoID\":3,\"servoSpeed\":0},{\"isTurn\":false,\"servoId\":5,\"servoSpeed\":0}]}") > -1){
-        var first = stringfy.split(":");
-
             
-    }    
+    }
 }
 
 /*

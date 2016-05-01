@@ -106,6 +106,7 @@
                     var sensor2Type = -1;
                     var sensor2ID = -1;
                     var debugMode = false;
+                    var isConnectedWS = false;
                     
                     
                     //**********************************************************
@@ -138,6 +139,9 @@
                         newX = 1290;
                         newY = 343;                        
                         drawMazeAndRectangle(1290, 343);
+                        if(isConnectedWS) {closeWSConnection();}
+                        
+                        
                         //drawIndicatorCanvas(300,300);
                     }
                     
@@ -638,6 +642,7 @@
                 <div class="panel panel-default">
                     <input type="text" id="ipTxt" value="localhost">
                     <a class="btn btn-default" onclick="startServer()">Connect to ASU VIPLE (Websockets)</a>
+                    <a class="btn btn-default" onclick="closeWSConnection()">Disconnect from ASU VIPLE</a>
                 </div>
             </div>
             
